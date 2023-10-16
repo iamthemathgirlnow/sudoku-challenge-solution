@@ -1,0 +1,45 @@
+
+total_unfilled_cells = 0 + 0 + 1 + 1 + 0 + 0 + 0 + 0 + 0 = 2
+
+Cap the cells to list:
+max_cells = min(total_unfilled_cells, 17) = 2
+
+# Candidate analysis
+## Common candidates in each unfilled cell
+### third_row_unfilled_columns: seventh
+#### 1 of {max_cells}
+(third_row, seventh_column):
+import third_row_missing_elements, seventh_column_missing_elements, top_right_block_missing_elements
+STEP_A: [4].intersection([4,8]) = [4]
+STEP_B: [4].intersection([4]) = [4]
+common_missing_elements: [4]
+FOUND 1 OF MAX FOUR: cell(third_row, seventh_column)
+
+### fourth_row_unfilled_columns: seventh
+#### 2 of {max_cells}
+(fourth_row, seventh_column):
+import fourth_row_missing_elements, seventh_column_missing_elements, middle_right_block_missing_elements
+STEP_A: [8].intersection([4,8]) = [8]
+STEP_B: [8].intersection([8]) = [8]
+common_missing_elements: [8]
+FOUND 2 OF MAX FOUR: cell(fourth_row, seventh_column)
+
+Finished printing 2 out of 2 cells, found 2 out of a max of 4
+
+# Outputting the found cells
+## Collating Results
+FOUND: cell(third_row, seventh_column)
+FOUND: cell(fourth_row, seventh_column)
+
+## Unbiased Results
+<analysis output>
+cell(third_row, seventh_column)
+third_row_missing_elements = [4]
+seventh_column_missing_elements = [4,8]
+top_right_block_missing_elements = [4]
+
+cell(fourth_row, seventh_column)
+fourth_row_missing_elements = [8]
+seventh_column_missing_elements = [4,8]
+middle_right_block_missing_elements = [8]
+</analysis output>
