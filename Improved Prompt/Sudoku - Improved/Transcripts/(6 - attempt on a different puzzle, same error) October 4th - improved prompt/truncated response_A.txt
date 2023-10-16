@@ -1,0 +1,33 @@
+_row, fourth_column):
+Using fourth_row_missing_elements, fourth_column_missing_elements, and middle_middle_block_missing_elements
+STEP_A: [3,5,6,8].intersection([1,2,4,6,7,8,9]) = [6,8]
+STEP_B: [6,8].intersection([1,3,4,5,6]) = [6]
+common_missing_elements: [6]
+FOUND TWO OF MAX SIX: cell(fourth_row, fourth_column)
+
+#### 17 of 17
+(fourth_row, seventh_column):
+Using fourth_row_missing_elements, seventh_column_missing_elements, and middle_right_block_missing_elements
+STEP_A: [3,5,6,8].intersection([2,3,5,6,7,8]) = [3,5,6,8]
+STEP_B: [3,5,6,8].intersection([3,5,6,7,8]) = [3,5,6,8]
+common_missing_elements: [3,5,6,8]
+
+Finished printing 17 out of 17 cells, found 2 out of a max of 6
+
+# Outputting the found cells
+## Collating Results
+FOUND: cell(second_row, fourth_column)
+FOUND: cell(fourth_row, fourth_column)
+
+## Unbiased Results
+<analysis output>
+cell(second_row, fourth_column)
+second_row_missing_elements = [1]
+fourth_column_missing_elements = [1,2,4,6,7,8,9]
+top_middle_block_missing_elements = [1,3,4,5,6]
+
+cell(fourth_row, fourth_column)
+fourth_row_missing_elements = [3,5,6,8]
+fourth_column_missing_elements = [1,2,4,6,7,8,9]
+middle_middle_block_missing_elements = [1,3,4,5,6]
+</analysis output>
