@@ -1,0 +1,3 @@
+Total sum of Prompt tokens: 100,080
+Total sum of Completion tokens: 105,598
+Total sum of Total tokens: 205,678

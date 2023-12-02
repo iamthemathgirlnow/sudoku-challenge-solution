@@ -1,0 +1,35 @@
+4,5,6]
+STEP_B: common_missing_elements = [3,4,5,6].intersection([3,5,6,7,8]) = [3,5,6]
+
+### fourth_row_unfilled_columns: first, fourth, seventh, eighth
+#### 17 of 17
+(fourth_row, first_column):
+Using fourth_row_missing_elements, first_column_missing_elements, and middle_left_block_missing_elements
+STEP_A: [3,5,6,8].intersection([1,2,4,5,7,8,9]) = [5,8]
+STEP_B: common_missing_elements = [5,8].intersection([1,4,5,8]) = [5,8]
+
+Finished printing 17 out of 17 cells, found 3 out of a max of 6
+
+# Outputting the found cells
+## Collating Results
+FOUND: cell(first_row, seventh_column)
+FOUND: cell(second_row, fifth_column)
+FOUND: cell(second_row, ninth_column)
+
+## Unbiased Results
+<analysis output>
+cell(first_row, seventh_column)
+first_row_missing_elements = [2,3,4,5,6,7,8]
+seventh_column_missing_elements = [2,3,5,6,7,8]
+top_right_block_missing_elements = [3,5,6,7,8]
+
+cell(second_row, fifth_column)
+second_row_missing_elements = [1,7,8]
+fifth_column_missing_elements = [2,3,4,6,7,9]
+top_middle_block_missing_elements = [1,3,4,5,6,7]
+
+cell(second_row, ninth_column)
+second_row_missing_elements = [1,7,8]
+ninth_column_missing_elements = [3,4,5,6,8,9]
+top_right_block_missing_elements = [3,5,6,7,8]
+</analysis output>

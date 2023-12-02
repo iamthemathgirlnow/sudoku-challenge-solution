@@ -1,0 +1,100 @@
+We are going to analyze a sudoku style puzzle.
+Our analysis will come down to one thing, finding the candidate elements for each unfilled square.
+To do this, examine the nine rows, the nine columns, and the nine blocks, and find the elements present and Not present in that set.
+Then, for each non-filled square, examine the elements Not present in the row, column, and 3-by-3 block associated with that square, combine them into a set of common candidates, and check to see whether or not there is Exactly one candidate in that set. Everything else follows from that.
+
+# Board State
+Trying to play without vision is difficult, so I want you to follow a very specific format.
+I want you to print out the current board state using the _exact_ format (replace content with actual game):
+## Rows
+first_row: [1,2,3,4,5,6,_,_,9]
+second_row: [4,5,6,7,8,9,1,2,3]
+third_row: [7,8,_,1,2,3,4,5,6]
+fourth_row: [2,3,4,5,6,7,8,_,1]
+fifth_row: [5,6,7,8,9,1,2,3,4]
+sixth_row: [8,9,1,2,_,4,5,6,7]
+seventh_row: [3,4,5,6,7,8,9,1,2]
+eighth_row: [6,7,8,9,1,2,3,_,5]
+ninth_row: [9,1,2,_,4,5,_,7,8]
+
+## Columns
+first_column: [1,4,7,2,5,8,3,6,9]
+second_column: [2,5,8,3,6,9,4,7,1]
+third_column: [3,6,_,4,7,1,5,8,2]
+fourth_column: [4,7,1,5,8,2,6,9,_]
+fifth_column: [5,8,2,6,9,_,7,1,4]
+sixth_column: [6,9,3,7,1,4,8,2,5]
+seventh_column: [_,1,4,8,2,5,9,3,_]
+eighth_column: [_,2,5,_,3,6,1,_,7]
+ninth_column: [9,3,6,1,4,7,2,5,8]
+
+# Missing elements analysis
+Now I want you to print out all twenty-seven sets to check. That's the nine rows, the nine columns, and the nine 3-by-3 blocks. This is to find the candidates that are Not in each row, column, or 3-by-3 block.
+At this stage DO NOT attempt to fill in any elements. All _ elements MUST remain as _ elements. This is VITAL.
+## Row elements
+Remember, the rows are just the rows as above.
+As an example, the board state above would have the Correct element analysis:
+first_row: [1,2,3,4,5,6,_,_,9] missing elements: [8,7] (remember, the digits do not have to be in order, just make sure they are all there)
+second_row: [4,5,6,7,8,9,1,2,3] missing elements: []
+third_row: [7,8,_,1,2,3,4,5,6] missing elements: [9]
+fourth_row: [2,3,4,5,6,7,8,_,1] missing elements: [9]
+...
+and do this for All Nine rows
+
+## Column elements
+Remember, the columns are an element from the same position in Each row. So the fourth_column is the fourth element from Every row, ect.
+Make sure to get All Elements INCLUDING UNDERSCORES in each column Exactly as they appear in the current game.
+Make sure NOT to replace a '_' with a number Even If You Know What It Should Be. This is VITAL.
+Remember, the digits Do Not have to be in order, just make sure they are all there. So if you write '[4]' and realize you also needed to add a '5', just write ', actually [4,5]' immediately after it.
+first_column: [1,4,7,2,5,8,3,6,9] missing elements: [] (remember, these are the first elements of each row)
+second_column: [2,5,8,3,6,9,4,7,1] missing elements: []
+third_column: [3,6,_,4,7,1,5,8,2] missing elements: [9]
+fourth_column: [4,7,1,5,8,2,6,9,_] missing elements: [3]
+...
+and do this for All Nine columns
+
+## Block elements
+Remember: the elements in the blocks are made from three elements each from Three Different Rows, NOT just from a single row. So the top_left_block in this example would be [[1, 2, 3],[4, 5, 6],[7, 8, _]], with [1,2,3] from the first_row left-three-columns, [4,5,6] from the second_row left-three-columns, and [7,8,_] from the third_row left-three-columns.
+Each block and its missing elements should (between them) exactly cover the digits from 1 to 9 with no duplicates and each number appearing exactly once.
+Also, the missing elements given in each row and column above May Not be in order, so be Very careful to get the right elements if using them.
+top_left_block (rows: first, second, third; columns: first, second, third):
+[[1, 2, 3],
+[4, 5, 6],
+[7, 8, _]]
+missing element: [9] (remember, these are from the first, second, AND third rows)
+
+top_middle_block (rows: first, second, third; columns: fourth, fifth, sixth):
+[[4, 5, 6],
+[7, 8, 9],
+[1, 2, 3]]
+missing elements: []
+
+top_right_block (rows: first, second, third; columns: seventh, eighth, ninth):
+[[_, _, 9],
+[1, 2, 3],
+[4, 5, 6]]
+missing elements: [7,8]
+
+middle_left_block (rows: fourth, fifth, sixth; columns: first, second, third):
+[[2, 3, 4],
+[5, 6, 7],
+[8, 9, 1]]
+missing elements: []
+...
+and do this for All Nine blocks
+
+We are currently in the testing phase. Do All sections exactly as instructed above, and then stop.
+Make sure to do Every section In Full, starting with printing the board state and ending after finding all nine blocks and their missing elements.
+
+We are analyzing the following sudoku. Make sure to convert it to the Correct format when printing the board state.
+_4167_258
+________3
+7___526__
+2_4____8_
+_______64
+_1__3__2_
+_3__8_49_
+_92_41___
+_6_7_9__5
+
+Begin

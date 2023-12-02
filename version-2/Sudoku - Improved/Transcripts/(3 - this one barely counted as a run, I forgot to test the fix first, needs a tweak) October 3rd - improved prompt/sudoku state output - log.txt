@@ -1,0 +1,32 @@
+turn: 0 (initial input)
+
+<output>
+first_row: [0,0,0,3,9,4,6,5,0]
+second_row: [0,6,0,0,0,0,0,0,3]
+third_row: [0,0,8,1,5,0,0,0,0]
+fourth_row: [0,3,9,0,0,7,0,0,0]
+fifth_row: [4,5,7,0,0,2,0,6,0]
+sixth_row: [8,0,0,9,0,0,0,1,4]
+seventh_row: [0,0,0,0,0,0,0,8,0]
+eighth_row: [9,0,0,0,6,1,0,0,0]
+ninth_row: [0,1,5,2,8,0,0,4,6]
+</output>
+
+
+
+turn: 2
+
+<output>
+first_row: [0,0,0,3,9,4,6,5,0]
+second_row: [0,6,0,0,0,0,0,0,3]
+third_row: [0,0,8,1,5,0,0,0,0]
+fourth_row: [0,3,9,0,0,7,0,0,0]
+fifth_row: [4,5,7,0,0,2,0,6,0]
+sixth_row: [8,0,0,9,0,0,0,1,4]
+seventh_row: [0,0,0,0,0,0,0,8,0]
+eighth_row: [9,0,0,0,6,1,0,0,0]
+ninth_row: [0,1,5,2,8,0,0,4,6]
+</output>
+
+
+

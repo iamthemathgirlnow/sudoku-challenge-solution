@@ -1,0 +1,368 @@
+turn: 0 (initial input)
+
+<output>
+first_row: [0,5,0,0,0,4,0,0,0]
+second_row: [0,0,0,9,0,0,3,7,0]
+third_row: [9,0,0,8,0,1,0,0,0]
+fourth_row: [8,0,3,0,0,6,1,0,0]
+fifth_row: [0,6,0,0,1,0,8,2,7]
+sixth_row: [0,9,1,0,0,8,6,0,0]
+seventh_row: [7,0,0,0,8,0,9,0,3]
+eighth_row: [0,0,0,2,9,0,0,0,4]
+ninth_row: [0,3,0,1,6,0,5,0,0]
+</output>
+
+
+
+turn: 2
+
+<output>
+first_row: [0,5,0,0,0,4,0,0,0]
+second_row: [0,0,0,9,0,0,3,7,0]
+third_row: [9,0,0,8,0,1,0,0,0]
+fourth_row: [8,0,3,0,0,6,1,0,0]
+fifth_row: [0,6,0,0,1,0,8,2,7]
+sixth_row: [0,9,1,0,0,8,6,0,0]
+seventh_row: [7,0,0,0,8,0,9,0,3]
+eighth_row: [0,0,0,2,9,0,0,0,4]
+ninth_row: [0,3,0,1,6,0,5,0,0]
+</output>
+
+
+
+turn: 4
+
+<Output>
+first_row: [7,0,0,0,8,0,9,0,3]
+second_row: [0,0,0,2,9,0,0,0,4]
+third_row: [0,3,0,1,6,0,5,0,0]
+fourth_row: [0,5,0,0,0,4,0,0,0]
+fifth_row: [0,0,0,9,0,0,3,7,0]
+sixth_row: [9,0,0,8,0,1,0,0,0]
+seventh_row: [8,0,3,0,0,6,1,0,0]
+eighth_row: [0,6,0,0,1,0,8,2,7]
+ninth_row: [0,9,1,0,0,8,6,0,5]
+</Output>
+
+
+
+turn: 6
+
+<Output>
+first_row: [0,5,0,0,0,4,0,0,0]
+second_row: [0,0,0,9,0,0,3,7,0]
+third_row: [9,0,0,8,0,1,0,0,0]
+fourth_row: [8,0,3,0,0,6,1,0,0]
+fifth_row: [0,6,0,0,1,0,8,2,7]
+sixth_row: [0,9,1,0,0,8,6,0,5]
+seventh_row: [7,0,0,0,8,0,9,0,3]
+eighth_row: [0,0,0,2,9,0,7,0,4]
+ninth_row: [0,3,0,1,6,7,5,8,0]
+</Output>
+
+
+
+turn: 8
+
+<Output>
+first_row: [8,0,3,0,0,6,1,0,0]
+second_row: [0,6,0,0,1,0,8,2,7]
+third_row: [0,9,1,0,0,8,6,0,5]
+fourth_row: [7,0,0,0,8,0,9,0,3]
+fifth_row: [0,0,0,2,9,0,7,0,4]
+sixth_row: [0,3,0,1,6,7,5,8,0]
+seventh_row: [0,5,0,0,0,4,2,0,0]
+eighth_row: [0,0,0,9,0,0,3,7,0]
+ninth_row: [9,0,0,8,0,1,0,0,0]
+</Output>
+
+
+
+turn: 10
+
+<Output>
+first_row: [7,0,0,0,8,5,9,0,3]
+second_row: [0,0,0,2,9,0,7,0,4]
+third_row: [0,3,0,1,6,7,5,8,0]
+fourth_row: [0,5,0,0,0,4,2,0,0]
+fifth_row: [0,0,0,9,0,0,3,7,0]
+sixth_row: [9,0,0,8,0,1,0,0,0]
+seventh_row: [8,0,3,0,0,6,1,0,9]
+eighth_row: [0,6,0,0,1,0,8,2,7]
+ninth_row: [0,9,1,0,0,8,6,0,5]
+</Output>
+
+
+
+turn: 12
+
+<Output>
+first_row: [0,5,0,0,0,4,2,0,0]
+second_row: [0,0,0,9,0,0,3,7,0]
+third_row: [9,0,0,8,0,1,0,0,0]
+fourth_row: [8,0,3,0,0,6,1,0,9]
+fifth_row: [0,6,0,0,1,0,8,2,7]
+sixth_row: [0,9,1,0,0,8,6,0,5]
+seventh_row: [7,0,0,4,8,5,9,0,3]
+eighth_row: [0,0,0,2,9,3,7,0,4]
+ninth_row: [0,3,0,1,6,7,5,8,2]
+</Output>
+
+
+
+turn: 14
+
+<Output>
+first_row: [8,0,3,0,0,6,1,0,9]
+second_row: [0,6,0,0,1,0,8,2,7]
+third_row: [0,9,1,0,0,8,6,0,5]
+fourth_row: [7,0,0,4,8,5,9,0,3]
+fifth_row: [0,0,0,2,9,3,7,0,4]
+sixth_row: [0,3,0,1,6,7,5,8,2]
+seventh_row: [0,5,0,0,0,4,2,0,0]
+eighth_row: [0,0,0,9,0,2,3,7,0]
+ninth_row: [9,0,0,8,0,1,4,0,0]
+</Output>
+
+
+
+turn: 16
+
+<Output>
+first_row: [7,0,0,4,8,5,9,0,3]
+second_row: [0,0,0,2,9,3,7,0,4]
+third_row: [0,3,0,1,6,7,5,8,2]
+fourth_row: [0,5,0,0,0,4,2,0,0]
+fifth_row: [0,0,0,9,0,2,3,7,0]
+sixth_row: [9,0,0,8,0,1,4,0,0]
+seventh_row: [8,0,3,0,0,6,1,4,9]
+eighth_row: [0,6,0,0,1,9,8,2,7]
+ninth_row: [0,9,1,0,0,8,6,0,5]
+</Output>
+
+
+
+turn: 18
+
+<Output>
+first_row: [0,5,0,0,0,4,2,0,0]
+second_row: [0,0,0,9,0,2,3,7,0]
+third_row: [9,0,0,8,0,1,4,0,0]
+fourth_row: [8,0,3,0,0,6,1,4,9]
+fifth_row: [0,6,0,0,1,9,8,2,7]
+sixth_row: [0,9,1,0,0,8,6,0,5]
+seventh_row: [7,0,0,4,8,5,9,0,3]
+eighth_row: [0,0,0,2,9,3,7,0,4]
+ninth_row: [4,3,0,1,6,7,5,8,2]
+</Output>
+
+
+
+turn: 20
+
+<Output>
+first_row: [8,0,3,0,0,6,1,4,9]
+second_row: [0,6,0,0,1,9,8,2,7]
+third_row: [0,9,1,0,0,8,6,0,5]
+fourth_row: [7,0,0,4,8,5,9,0,3]
+fifth_row: [0,0,0,2,9,3,7,0,4]
+sixth_row: [4,3,0,1,6,7,5,8,2]
+seventh_row: [0,5,0,0,0,4,2,0,0]
+eighth_row: [0,0,0,9,5,2,3,7,0]
+ninth_row: [9,0,0,8,0,1,4,0,6]
+</Output>
+
+
+
+turn: 22
+
+<Output>
+first_row: [7,0,0,4,8,5,9,0,3]
+second_row: [0,0,0,2,9,3,7,0,4]
+third_row: [4,3,0,1,6,7,5,8,2]
+fourth_row: [0,5,0,0,0,4,2,0,0]
+fifth_row: [0,0,0,9,5,2,3,7,0]
+sixth_row: [9,0,0,8,0,1,4,0,6]
+seventh_row: [8,0,3,0,0,6,1,4,9]
+eighth_row: [5,6,0,0,1,9,8,2,7]
+ninth_row: [2,9,1,7,0,8,6,3,5]
+</Output>
+
+
+
+turn: 24
+
+<Output>
+first_row: [0,5,0,0,0,4,2,0,0]
+second_row: [0,0,0,9,5,2,3,7,0]
+third_row: [9,0,0,8,0,1,4,0,6]
+fourth_row: [8,0,3,0,0,6,1,4,9]
+fifth_row: [5,6,0,0,1,9,8,2,7]
+sixth_row: [2,9,1,7,0,8,6,3,5]
+seventh_row: [7,0,0,4,8,5,9,0,3]
+eighth_row: [0,0,0,2,9,3,7,0,4]
+ninth_row: [4,3,9,1,6,7,5,8,2]
+</Output>
+
+
+
+turn: 26
+
+<Output>
+first_row: [8,7,3,5,2,6,1,4,9]
+second_row: [5,6,0,0,1,9,8,2,7]
+third_row: [2,9,1,7,0,8,6,3,5]
+fourth_row: [7,0,0,4,8,5,9,0,3]
+fifth_row: [0,0,0,2,9,3,7,0,4]
+sixth_row: [4,3,9,1,6,7,5,8,2]
+seventh_row: [0,5,0,0,0,4,2,0,0]
+eighth_row: [0,0,0,9,5,2,3,7,0]
+ninth_row: [9,0,0,8,0,1,4,5,6]
+</Output>
+
+
+
+turn: 28
+
+<Output>
+first_row: [7,0,0,4,8,5,9,0,3]
+second_row: [0,0,0,2,9,3,7,0,4]
+third_row: [4,3,9,1,6,7,5,8,2]
+fourth_row: [0,5,0,0,0,4,2,0,0]
+fifth_row: [0,0,0,9,5,2,3,7,0]
+sixth_row: [9,0,0,8,0,1,4,5,6]
+seventh_row: [8,7,3,5,2,6,1,4,9]
+eighth_row: [5,6,4,3,1,9,8,2,7]
+ninth_row: [2,9,1,7,4,8,6,3,5]
+</Output>
+
+
+
+turn: 30
+
+<Output>
+first_row: [0,5,0,6,0,4,2,0,0]
+second_row: [0,0,0,9,5,2,3,7,0]
+third_row: [9,0,0,8,0,1,4,5,6]
+fourth_row: [8,7,3,5,2,6,1,4,9]
+fifth_row: [5,6,4,3,1,9,8,2,7]
+sixth_row: [2,9,1,7,4,8,6,3,5]
+seventh_row: [7,0,0,4,8,5,9,0,3]
+eighth_row: [0,0,0,2,9,3,7,0,4]
+ninth_row: [4,3,9,1,6,7,5,8,2]
+</Output>
+
+
+
+turn: 32
+
+<Output>
+first_row: [8,7,3,5,2,6,1,4,9]
+second_row: [5,6,4,3,1,9,8,2,7]
+third_row: [2,9,1,7,4,8,6,3,5]
+fourth_row: [7,0,0,4,8,5,9,0,3]
+fifth_row: [0,0,0,2,9,3,7,0,4]
+sixth_row: [4,3,9,1,6,7,5,8,2]
+seventh_row: [0,5,0,6,0,4,2,0,0]
+eighth_row: [0,0,0,9,5,2,3,7,0]
+ninth_row: [9,0,0,8,0,1,4,5,6]
+</Output>
+
+
+
+turn: 34
+
+<Output>
+first_row: [7,0,0,4,8,5,9,0,3]
+second_row: [0,0,0,2,9,3,7,0,4]
+third_row: [4,3,9,1,6,7,5,8,2]
+fourth_row: [0,5,0,6,0,4,2,0,0]
+fifth_row: [0,0,0,9,5,2,3,7,0]
+sixth_row: [9,2,0,8,0,1,4,5,6]
+seventh_row: [8,7,3,5,2,6,1,4,9]
+eighth_row: [5,6,4,3,1,9,8,2,7]
+ninth_row: [2,9,1,7,4,8,6,3,5]
+</Output>
+
+
+
+turn: 36
+
+<Output>
+first_row: [0,5,0,6,0,4,2,0,0]
+second_row: [0,0,0,9,5,2,3,7,0]
+third_row: [9,2,7,8,0,1,4,5,6]
+fourth_row: [8,7,3,5,2,6,1,4,9]
+fifth_row: [5,6,4,3,1,9,8,2,7]
+sixth_row: [2,9,1,7,4,8,6,3,5]
+seventh_row: [7,1,0,4,8,5,9,0,3]
+eighth_row: [0,0,0,2,9,3,7,0,4]
+ninth_row: [4,3,9,1,6,7,5,8,2]
+</Output>
+
+
+
+turn: 38
+
+<Output>
+first_row: [8,7,3,5,2,6,1,4,9]
+second_row: [5,6,4,3,1,9,8,2,7]
+third_row: [2,9,1,7,4,8,6,3,5]
+fourth_row: [7,1,0,4,8,5,9,6,3]
+fifth_row: [6,0,0,2,9,3,7,0,4]
+sixth_row: [4,3,9,1,6,7,5,8,2]
+seventh_row: [0,5,8,6,0,4,2,0,0]
+eighth_row: [0,0,0,9,5,2,3,7,0]
+ninth_row: [9,2,7,8,3,1,4,5,6]
+</Output>
+
+
+
+turn: 40
+
+<Output>
+first_row: [7,1,2,4,8,5,9,6,3]
+second_row: [6,8,5,2,9,3,7,0,4]
+third_row: [4,3,9,1,6,7,5,8,2]
+fourth_row: [0,5,8,6,7,4,2,0,0]
+fifth_row: [0,0,0,9,5,2,3,7,0]
+sixth_row: [9,2,7,8,3,1,4,5,6]
+seventh_row: [8,7,3,5,2,6,1,4,9]
+eighth_row: [5,6,4,3,1,9,8,2,7]
+ninth_row: [2,9,1,7,4,8,6,3,5]
+</Output>
+
+
+
+turn: 42
+
+<Output>
+first_row: [0,5,8,6,7,4,2,0,1]
+second_row: [1,4,0,9,5,2,3,7,0]
+third_row: [9,2,7,8,3,1,4,5,6]
+fourth_row: [8,7,3,5,2,6,1,4,9]
+fifth_row: [5,6,4,3,1,9,8,2,7]
+sixth_row: [2,9,1,7,4,8,6,3,5]
+seventh_row: [7,1,2,4,8,5,9,6,3]
+eighth_row: [6,8,5,2,9,3,7,1,4]
+ninth_row: [4,3,9,1,6,7,5,8,2]
+</Output>
+
+
+
+turn: 44
+
+<Output>
+first_row: [8,7,3,5,2,6,1,4,9]
+second_row: [5,6,4,3,1,9,8,2,7]
+third_row: [2,9,1,7,4,8,6,3,5]
+fourth_row: [7,1,2,4,8,5,9,6,3]
+fifth_row: [6,8,5,2,9,3,7,1,4]
+sixth_row: [4,3,9,1,6,7,5,8,2]
+seventh_row: [3,5,8,6,7,4,2,9,1]
+eighth_row: [1,4,6,9,5,2,3,7,8]
+ninth_row: [9,2,7,8,3,1,4,5,6]
+</Output>
+
+
+
