@@ -1,0 +1,49 @@
+ Block
+RowSix and ColumnOne, ColumnTwo, or ColumnThree means BlockFour
+RowSix and ColumnFour, ColumnFive, or ColumnSix means BlockFive
+RowSix and ColumnSeven, ColumnEight, or ColumnNine means BlockSix
+
+### 3 of 3
+Up to ColumnThree in EmptyColumnNamesRowSix
+The last empty column of EmptyColumnNamesRowSix is ColumnThree
+Last column of current row
+RowSix and ColumnThree means BlockFour
+import CandidatesRowSix, CandidatesColumnThree, CandidatesBlockFour
+CandidatesRowSix = [8]
+CandidatesColumnThree = [7,8]
+CandidatesBlockFour = [7,8]
+Finding Common Elements:
+CommonElementsOfRowSixAndColumnThree => [8] & [7,8] = [8]
+CommonElementsOfRowSixAndColumnThreeAndBlockFour => [8] & [7,8] = [8]
+CellCandidates = [8]
+Length = 1
+FOUND RowSix, ColumnThree, BlockFour
+
+Finished printing 3 of 3 cells
+
+PART THREE, OUTPUT
+# Outputting FOUND Cells
+## Collating Results, Six Max
+1: FOUND RowFive, ColumnThree, BlockFour
+2: FOUND RowFive, ColumnSeven, BlockSix
+3: FOUND RowSix, ColumnThree, BlockFour
+Printed all 3 FOUND cells
+
+## Unbiased Results
+<analysis output>
+cell(RowFive, ColumnThree, BlockFour):
+CandidatesRowFive = [2,7]
+CandidatesColumnThree = [7,8]
+CandidatesBlockFour = [7,8]
+
+cell(RowFive, ColumnSeven, BlockSix):
+CandidatesRowFive = [2,7]
+CandidatesColumnSeven = [2]
+CandidatesBlockSix = [2]
+
+cell(RowSix, ColumnThree, BlockFour):
+CandidatesRowSix = [8]
+CandidatesColumnThree = [7,8]
+CandidatesBlockFour = [7,8]
+
+</analysis output>

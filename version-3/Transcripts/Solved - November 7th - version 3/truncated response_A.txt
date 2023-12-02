@@ -1,0 +1,48 @@
+ + 0 = 0
+
+# Calculate MaxCells:
+MaxCells => min(total_empty_cells, 20) = 0
+
+PART TWO, CELL CANDIDATES
+# Cell Candidates
+## RowSix Candidates
+EmptyColumnNamesRowSix: [ColumnFour]
+Note, the last empty column of the RowSix is ColumnFour
+Note, digits in lists will Only consist of subsets of AllDigits = [1,2,3,4,5,6,7,8,9]
+Reference: Row and Column to Block
+RowSix and ColumnOne, ColumnTwo, or ColumnThree means BlockFour
+RowSix and ColumnFour, ColumnFive, or ColumnSix means BlockFive
+RowSix and ColumnSeven, ColumnEight, or ColumnNine means BlockSix
+
+### 1 of 0
+Up to ColumnFour in EmptyColumnNamesRowSix
+The last empty column of EmptyColumnNamesRowSix is ColumnFour
+Last column of current row
+RowSix and ColumnFour means BlockFive
+import CandidatesRowSix, CandidatesColumnFour, CandidatesBlockFive
+CandidatesRowSix = [4]
+CandidatesColumnFour = [4]
+CandidatesBlockFive = [4]
+Finding Common Elements:
+CommonElementsOfRowSixAndColumnFour => [4] & [4] = [4]
+CommonElementsOfRowSixAndColumnFourAndBlockFive => [4] & [4] = [4]
+CellCandidates = [4]
+Length = 1
+FOUND RowSix, ColumnFour, BlockFive
+
+Finished printing 1 of 0 cells
+
+PART THREE, OUTPUT
+# Outputting FOUND Cells
+## Collating Results, Six Max
+1: FOUND RowSix, ColumnFour, BlockFive
+Printed all 1 FOUND cells
+
+## Unbiased Results
+<analysis output>
+cell(RowSix, ColumnFour, BlockFive):
+CandidatesRowSix = [4]
+CandidatesColumnFour = [4]
+CandidatesBlockFive = [4]
+
+</analysis output>

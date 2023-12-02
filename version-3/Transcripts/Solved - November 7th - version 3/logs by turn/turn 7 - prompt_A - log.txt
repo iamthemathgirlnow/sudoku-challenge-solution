@@ -1,0 +1,2380 @@
+turn 7 - prompt_A
+
+Started at: 2023-12-01 00:51:54
+Finished at: 2023-12-01 00:56:10
+Time taken: 255.97997426986694 seconds
+
+Prompt tokens: 4365
+Completion tokens: 4000
+Total tokens: 8365
+
+model:
+gpt-4-1106-preview
+
+temperature:
+0
+
+seed:
+2
+
+fingerprint:
+fp_a24b4d720c
+
+entry 1 of 5
+system:
+You are going to analyze the sudoku you've just been given. When printing, follow the requested formats Exactly as given by the prompt, with no additions, omissions, or shortcuts.
+- For each section, start by printing the section heading, which are lines beginning with #, ##, or ###.
+- Lines beginning with a dash are instructions, '- {instructions to follow}'.
+- All other lines are to be printed. They are to be printed Verbatim, with nothing changed except for filling in values surrounded by curly brackets {values to replace are given like this}, or filling in list elements when asked [the elements of {list_name}].
+- When asked to perform calculations, do so Carefully and with Full Accuracy.
+- When asked to use a value from a previous section, fetch and use the Already Existing Value, Do Not recalculate it. It was calculated accurately already.
+- Many sections require printing the contents multiple times, such as once for each instance in a list (or similar). Do this when asked, making sure to print the contents the Full requested number of items, once for each item.
+- Some sections are, themselves, meant to be printed multiple times. These are:
+    - The '## {row_name} Candidates' section, for rows with empty elements.
+    - And the '### {current_cell_count} of {MaxCells}' section, for empty cells (cells with a value of 0).
+- The value of MaxCells will be calculated either as 20, or a number less than 20. MaxCells determines how many times the following sections are repeated, these are:
+    - The '### {current_cell_count} of {MaxCells}' section is printed Exactly {MaxCells} times, NEVER less than that. The Only time it is printed less than 20 times is when ALL empty cells in the Entire sudoku have been processed, otherwise it is printed the Full 20 times.
+    - The '## {row_name} Candidates' section is printed however many times is required for the '### {current_cell_count} of {MaxCells}' section to be printed the Full and Correct number of times. So if the '### {current_cell_count} of {MaxCells}' section has not yet been printed {MaxCells} times when a row ends, then the '## {row_name} Candidates' section must be printed again for the next required row.
+- When a section is repeated, it should always use the next required value or item (the items to iterate over are described in the section).
+- Go through the sections in the given order, following the given instructions exactly for each.
+- If a section header is marked by '(this section is not printed)', then do not print that section.
+- Each must be done section In Full.
+
+Some notes on specific sections:
+- In the '# Index of all zeros, by row' section, you Must get the index of Every 0 element in each row. It is Vital to get this correct, so the row elements are checked one by one for each row. The index of any 0 digit of a row found by checking one by one, is then added to a single list to be converted to column names for that row.
+- In each '### {current_cell_count} of {MaxCells}' section, when fetching the block name, you Must use the 'Reference: Row and Column to Block' table from the '## {row_name} Candidates' section of the current row to get the correct block name.
+- Also in the '### {current_cell_count} of {MaxCells}' section, take care to use the Correct Candidates lists for the current Row, Column, and Block. The Correct list elements Must be fetched and printed to be used for calculations.
+
+Do not use spaces in lists anywhere, just use commas without spaces to separate elements.
+
+entry 2 of 5
+user:
+<output>
+RowOne: [9,8,5,3,1,6,4,2,0]
+RowTwo: [2,3,1,8,4,7,9,6,5]
+RowThree: [7,0,6,0,5,0,1,8,3]
+RowFour: [4,0,0,6,0,0,3,0,0]
+RowFive: [0,0,3,2,0,0,0,7,0]
+RowSix: [0,7,0,0,8,3,0,4,9]
+RowSeven: [0,5,4,7,6,0,2,0,0]
+RowEight: [0,2,0,0,0,0,0,0,4]
+RowNine: [3,0,9,0,2,0,0,0,8]
+</output>
+
+entry 3 of 5
+assistant:
+Awaiting instructions.
+
+entry 4 of 5
+user:
+- You are going to analyze the sudoku you've just been given.
+- All lists should have comma separated elements Without spaces.
+
+- First print the title:
+PART ONE, GROUPS AND CANDIDATES
+
+- Then begin.
+# Rows
+- Display the board state in terms of the rows.
+- Use (almost) the exact format as the sudoku given in the output tags, using 'Row{row_number}' for the row names (for example, 'RowOne').
+- The only difference is you write '{row_name} = [the elements of {row_name}]' instead of '{row_name}: [the elements of {row_name}]' for each row.
+- Do all rows.
+
+
+# Columns
+- Display the board state in terms of the columns.
+- Use the same format as in the '# Rows' section, using 'Column{column_number}' for the column names.
+- Do all columns.
+
+
+# Blocks
+- Display the board state in terms of the blocks.
+- Do all blocks.
+- Use 'Block{block_number}' for the block names.
+- Give each in a 3x3 matrix, followed immediately by the same Block and elements as a standard list, using the format:
+Block{block_number}:
+[[a,b,c],
+[d,e,f],
+[g,h,i]]
+Block{block_number} = [a,b,c,d,e,f,g,h,i]
+
+
+# Row Candidates
+- Now produce the row candidates.
+- Do all rows, one at a time.
+
+- First write out AllDigits for reference:
+AllDigits = [1,2,3,4,5,6,7,8,9]
+
+- For each row in '# Rows', write out the digits NOT in the row using the following format:
+Candidates{row_name} => AllDigits.difference({row_name}) => [1,2,3,4,5,6,7,8,9].difference([the elements of {row_name}] from '# Rows') = [digits from AllDigits (1 to 9) not in {row_name}]
+Candidates{row_name} = [the Candidates{row_name} elements you just calculated at the end of the previous line]
+- You Must write out both lines for each Row, first the calculation line, followed Immediately by the second more concise line. This is Required.
+
+
+# Column Candidates
+- Now produce the column candidates.
+- Do all columns, one at a time.
+
+- First write out AllDigits for reference:
+AllDigits = [1,2,3,4,5,6,7,8,9]
+
+- For each column in '# Columns', write out the digits NOT in the column using the following format:
+Candidates{column_name} => AllDigits.difference({column_name}) => [1,2,3,4,5,6,7,8,9].difference([the elements of {column_name} from '# Columns']) = [digits from AllDigits (digits 1 to 9) not in {column_name}]
+Candidates{column_name} = [the Candidates{column_name} elements you just calculated at the end of the previous line]
+- You Must write out both lines for each Column, first the calculation line, followed Immediately by the second more concise line. This is Required.
+
+
+# Block Candidates
+- Now produce the block candidates.
+- Do all blocks, one at a time.
+
+- First write out AllDigits for reference:
+AllDigits = [1,2,3,4,5,6,7,8,9]
+
+- For each block in '# Blocks', write out the digits NOT in the block using the following format:
+Candidates{block_name} => AllDigits.difference({block_name}) => [1,2,3,4,5,6,7,8,9].difference([the elements of {block_name} from '# Blocks']) = [digits from AllDigits (digits 1 to 9) not in {block_name}]
+Candidates{block_name} = [the Candidates{block_name} elements you just calculated at the end of the previous line]
+- You Must write out both lines for each Block, first the calculation line, followed Immediately by the second more concise line. This is Required.
+
+
+# Index of all zeros, by row
+- Do all rows, one at a time.
+
+- For each row in '# Rows', carefully calculate the index of Every 0 element in {row_name}, using the format below for each row.
+- First each element {row_name}[0 to 8] is checked.
+- Then the index of each 0 element is put into one list.
+- Then add one to each index to turn them into column positions.
+- Then convert the column positions to column names.
+- Do this for all rows.
+{row_name} = [list the elements of {row_name} from '# Rows']
+Now finding the index of Each 0 element in {row_name}
+{row_name}[0] = {the element at {row_name}[0]}
+{row_name}[1] = {the element at {row_name}[1]}
+{row_name}[2] = {the element at {row_name}[2]}
+{row_name}[3] = {the element at {row_name}[3]}
+{row_name}[4] = {the element at {row_name}[4]}
+{row_name}[5] = {the element at {row_name}[5]}
+{row_name}[6] = {the element at {row_name}[6]}
+{row_name}[7] = {the element at {row_name}[7]}
+{row_name}[8] = {the element at {row_name}[8]}
+IndexOfAll0ElementsIn{row_name} => [the index of every 0 element found in {row_name}, from the elements just checked]
+ColumnPositionOfAll0Elements{row_name} => map(element+1, IndexOfAll0ElementsIn{row_name}) = [elements of IndexOfAll0ElementsIn{row_name} with all elements incremented by 1]
+EmptyColumnNames{row_name} = [Column{column_number as a Word} for column_number in ColumnPositionOfAll0Elements{row_name}]
+
+
+# Calculate the number of empty cells in each row in '# Rows'
+- Use the following as a format:
+total_empty_cells = {Length{row_name} as a number} for each EmptyColumnNames{row_name} = {total sum}
+- This will look like:
+total_empty_cells = {number} + {number} + {number}, + {number} + {number} + {number}, + {number} + {number} + {number} = {total sum}
+
+
+# Calculate MaxCells:
+- Cap the number of cells to list:
+MaxCells => min({total_empty_cells}, 20) = (the lower of 20 or {total_empty_cells})
+
+
+PART TWO, CELL CANDIDATES
+# Cell Candidates
+- Calculate the cell candidates of the empty cells, up to MaxCells.
+- Iterate through the empty cells from, stopping immediately after processing all {MaxCells} cells.
+- To ensure only empty cells are processed, print the '## {row_name} Candidates' section when beginning each row.
+
+- When you get to the start of a new row (and have not yet reached MaxCells), print the following to use as a reference (elements of EmptyColumnNames{row_name}, note on last empty column of the row, note on digits in lists, the row and column to block reference title, then Exactly three Row and Column to Block reference lines).
+- Do this at the start of Each row when you get to it (until MaxCells). Then proceed with processing the empty cells in that row.
+- Everything MUST be printed using the formats provided. This is Required.
+## {row_name} Candidates
+- Print the EmptyColumnNames for the current row, with the format:
+EmptyColumnNames{row_name}: [list the column_names in EmptyColumnNames{row_name} from '# Index of all zeros, by row']
+- Then print the following notes, with the format:
+Note, the last empty column of the {row_name} is {EmptyColumnNames{row_name}[-1]}
+Note, digits in lists will Only consist of subsets of AllDigits = [1,2,3,4,5,6,7,8,9]
+- Then print the title for the block_name reference (Must be printed):
+Reference: Row and Column to Block
+- Then print EXACTLY AND ONLY THREE of the following reference lines. These are the Row and Column to Block reference table and Must be printed as is (only filling in the row_name). Change NOTHING about the lines other than filling in 'Row{row_number}' to the current row_name. You MUST print all three lines and leave the columns and blocks unchanged in each.
+- These three for RowOne, RowTwo, or RowThree
+Row{row_number == One|Two|Three} and ColumnOne, ColumnTwo, or ColumnThree means BlockOne
+Row{row_number == One|Two|Three} and ColumnFour, ColumnFive, or ColumnSix means BlockTwo
+Row{row_number == One|Two|Three} and ColumnSeven, ColumnEight, or ColumnNine means BlockThree
+- OR these three for RowFour, RowFive, or RowSix
+Row{row_number == Four|Five|Six} and ColumnOne, ColumnTwo, or ColumnThree means BlockFour
+Row{row_number == Four|Five|Six} and ColumnFour, ColumnFive, or ColumnSix means BlockFive
+Row{row_number == Four|Five|Six} and ColumnSeven, ColumnEight, or ColumnNine means BlockSix
+- OR these three for RowSeven, RowEight, or RowNine
+Row{row_number == Seven|Eight|Nine} and ColumnOne, ColumnTwo, or ColumnThree means BlockSeven
+Row{row_number == Seven|Eight|Nine} and ColumnFour, ColumnFive, or ColumnSix means BlockEight
+Row{row_number == Seven|Eight|Nine} and ColumnSeven, ColumnEight, or ColumnNine means BlockNine
+- end of the '## {row_name} Candidates' format
+
+- For each empty cell in EmptyColumnNames{row_name}, up to a maximum of {MaxCells}, calculate the cell candidates using the format below.
+- (List out the elements of a list when instructed).
+- (Everything MUST be printed using the formats provided. This is Required).
+### {current_cell_count} of {MaxCells}
+Up to {column_name} in EmptyColumnNames{row_name}
+The last empty column of EmptyColumnNames{row_name} is {EmptyColumnNames{row_name}[-1]}
+- if {column_name} is the last empty column of EmptyColumnNames{row_name}:
+    print("Last column of current row")
+    - And If it is NOT the last cell of the section ({current_cell_count} != {MaxCells}), Also add:
+        print("The next row is {next row_name with empty columns})
+- else:
+    print("Not the last column of current row")
+{row_name} and {column_name} means {use the current Row and Column with the 'Reference: Row and Column to Block' table from the '## {row_name} Candidates' section of the current row to get the correct {block_name}}
+import Candidates{row_name}, Candidates{column_name}, Candidates{block_name}
+- You MUST use the already calculated Candidate elements for the current Row, Column, and Block (it is Required to use the already existing Candidates lists). You Must reprint the elements here to refresh them.
+Candidates{row_name} = [the elements of Candidates{row_name} from '# Row Candidates']
+Candidates{column_name} = [the elements of Candidates{column_name} from '# Column Candidates']
+Candidates{block_name} = [the elements of Candidates{block_name} from '# Block Candidates']
+Finding Common Elements:
+- Use the following format to calculate the elements common to both the current row, and the current column.
+CommonElementsOf{row_name}And{column_name} => [the elements of Candidates{row_name}] & [the elements of Candidates{column_name}] = [element if element in Candidates{row_name} and if element in Candidates{column_name}]
+- Use the following format to calculate the elements common to both the results of the previous line (the common row and column elements), and the current block.
+CommonElementsOf{row_name}And{column_name}And{block_name} => [the elements of CommonElementsOf{row_name}And{column_name}] & [the elements of Candidates{block_name}] = [element if element in CommonElementsOf{row_name}And{column_name} and if element in Candidates{block_name}]
+CellCandidates = [list the calculated elements of CommonElementsOf{row_name}And{column_name}And{block_name} exactly as they appear at the end of the previous line, and with No Spaces]
+Length = {CellCandidates.length}
+- If Length == 1, print the line:
+FOUND {row_name}, {column_name}, {block_name}
+- Else, print the line:
+Not 1
+{at the end of each cell, print a newline}
+- then move to the next empty cell until All {MaxCells} empty cells are done.
+- end of the '### {current_cell_count} of {MaxCells}' format
+
+- Calculate the candidates for all {MaxCells} cells starting from the top (though never more than 20 cells, that is the max).
+- As soon as you have finished processing all {MaxCells} of {MaxCells} cells, Stop Listing Cells, and print:
+Finished printing {MaxCells} of {MaxCells} cells
+- This is ONLY when {current_cell_count} == {MaxCells}, NEVER before.
+
+
+PART THREE, OUTPUT
+# Outputting FOUND Cells
+## Collating Results, Six Max
+- For every (up to six) empty cell which had only one element in CellCandidates, marked by "FOUND", find and output all of the FOUND cells (up to a Maximum of 6 FOUND cells) in one place using the same format as the `FOUND {row_name}, {column_name}, {block_name}` line:
+{count from 1 to (at most) 6}: FOUND {row_name}, {column_name, {block_name}}
+- If there were six or more cells with only one CellCandidates, print the following As Soon as you have printed six cells (the max) (if less than six, skip to the Else If below), and then don't print the rest:
+Printed The Max Of Six FOUND Cells
+- Else If you have printed all FOUND cells, but there were less than six, at the end of the FOUND cells print:
+Printed all {number_of_FOUND_cells (when Less than 6 are found)} FOUND cells
+- Make sure to list all of the ones you found up to a max of six (if there were less than six, just print the ones you found).
+- If there where none, instead print "There were no empty cells with only one cell candidate"
+
+## Unbiased Results
+- You MUST print the '## Unbiased Results' section heading, so it can be picked up by the system.
+- For every cell in the '## Collating Results' section (up to a MAX of 6), list them in the format:
+cell({row_name}, {column_name}, {block_name}):
+Candidates{row_name} = [the elements of Candidates{row_name} from '# Row Candidates']
+Candidates{column_name} = [the elements of Candidates{column_name} from '# Column Candidates']
+Candidates{block_name} = [the elements of Candidates{block_name} from '# Block Candidates']
+{newline}
+- Surround the entire list of cells with <analysis output></analysis output> tags.
+- If there were no found cells, output the <analysis output></analysis output> tags containing only the phrase "There were no empty cells with only one cell candidate"
+- (Do not put anything after the closing analysis output tag).
+
+
+- # Final Notes (this section is not printed)
+- You Must Finish All Sections In Full. Do not stop until All Sections are Fully Finished.
+- Print the provided headers when appropriate.
+- Use these instructions to analyze the sudoku.
+- Begin.
+
+entry 5 of 5
+assistant:
+PART ONE, GROUPS AND CANDIDATES
+# Rows
+RowOne = [9,8,5,3,1,6,4,2,0]
+RowTwo = [2,3,1,8,4,7,9,6,5]
+RowThree = [7,0,6,0,5,0,1,8,3]
+RowFour = [4,0,0,6,0,0,3,0,0]
+RowFive = [0,0,3,2,0,0,0,7,0]
+RowSix = [0,7,0,0,8,3,0,4,9]
+RowSeven = [0,5,4,7,6,0,2,0,0]
+RowEight = [0,2,0,0,0,0,0,0,4]
+RowNine = [3,0,9,0,2,0,0,0,8]
+
+# Columns
+ColumnOne = [9,2,7,4,0,0,0,0,3]
+ColumnTwo = [8,3,0,0,0,7,5,2,0]
+ColumnThree = [5,1,6,0,3,0,4,0,9]
+ColumnFour = [3,8,0,6,2,0,7,0,0]
+ColumnFive = [1,4,5,0,0,8,6,0,2]
+ColumnSix = [6,7,0,0,0,3,0,0,0]
+ColumnSeven = [4,9,1,3,0,0,2,0,0]
+ColumnEight = [2,6,8,0,7,4,0,0,0]
+ColumnNine = [0,5,3,0,0,9,0,4,8]
+
+# Blocks
+BlockOne:
+[[9,8,5],
+[2,3,1],
+[7,0,6]]
+BlockOne = [9,8,5,2,3,1,7,0,6]
+
+BlockTwo:
+[[3,1,6],
+[8,4,7],
+[0,5,0]]
+BlockTwo = [3,1,6,8,4,7,0,5,0]
+
+BlockThree:
+[[4,2,0],
+[9,6,5],
+[1,8,3]]
+BlockThree = [4,2,0,9,6,5,1,8,3]
+
+BlockFour:
+[[4,0,0],
+[0,0,3],
+[0,7,0]]
+BlockFour = [4,0,0,0,0,3,0,7,0]
+
+BlockFive:
+[[6,0,0],
+[2,0,0],
+[0,8,3]]
+BlockFive = [6,0,0,2,0,0,0,8,3]
+
+BlockSix:
+[[3,0,0],
+[0,7,0],
+[0,4,9]]
+BlockSix = [3,0,0,0,7,0,0,4,9]
+
+BlockSeven:
+[[0,5,4],
+[0,2,0],
+[3,0,9]]
+BlockSeven = [0,5,4,0,2,0,3,0,9]
+
+BlockEight:
+[[7,6,0],
+[0,0,0],
+[0,2,0]]
+BlockEight = [7,6,0,0,0,0,0,2,0]
+
+BlockNine:
+[[2,0,0],
+[0,0,4],
+[0,0,8]]
+BlockNine = [2,0,0,0,0,4,0,0,8]
+
+# Row Candidates
+AllDigits = [1,2,3,4,5,6,7,8,9]
+CandidatesRowOne => AllDigits.difference(RowOne) => [1,2,3,4,5,6,7,8,9].difference([9,8,5,3,1,6,4,2,0]) = [7]
+CandidatesRowOne = [7]
+CandidatesRowTwo => AllDigits.difference(RowTwo) => [1,2,3,4,5,6,7,8,9].difference([2,3,1,8,4,7,9,6,5]) = []
+CandidatesRowTwo = []
+CandidatesRowThree => AllDigits.difference(RowThree) => [1,2,3,4,5,6,7,8,9].difference([7,0,6,0,5,0,1,8,3]) = [2,4,9]
+CandidatesRowThree = [2,4,9]
+CandidatesRowFour => AllDigits.difference(RowFour) => [1,2,3,4,5,6,7,8,9].difference([4,0,0,6,0,0,3,0,0]) = [1,2,5,7,8,9]
+CandidatesRowFour = [1,2,5,7,8,9]
+CandidatesRowFive => AllDigits.difference(RowFive) => [1,2,3,4,5,6,7,8,9].difference([0,0,3,2,0,0,0,7,0]) = [1,4,5,6,8,9]
+CandidatesRowFive = [1,4,5,6,8,9]
+CandidatesRowSix => AllDigits.difference(RowSix) => [1,2,3,4,5,6,7,8,9].difference([0,7,0,0,8,3,0,4,9]) = [1,2,5,6]
+CandidatesRowSix = [1,2,5,6]
+CandidatesRowSeven => AllDigits.difference(RowSeven) => [1,2,3,4,5,6,7,8,9].difference([0,5,4,7,6,0,2,0,0]) = [1,3,8,9]
+CandidatesRowSeven = [1,3,8,9]
+CandidatesRowEight => AllDigits.difference(RowEight) => [1,2,3,4,5,6,7,8,9].difference([0,2,0,0,0,0,0,0,4]) = [1,3,5,6,7,8,9]
+CandidatesRowEight = [1,3,5,6,7,8,9]
+CandidatesRowNine => AllDigits.difference(RowNine) => [1,2,3,4,5,6,7,8,9].difference([3,0,9,0,2,0,0,0,8]) = [1,4,5,6,7]
+CandidatesRowNine = [1,4,5,6,7]
+
+# Column Candidates
+AllDigits = [1,2,3,4,5,6,7,8,9]
+CandidatesColumnOne => AllDigits.difference(ColumnOne) => [1,2,3,4,5,6,7,8,9].difference([9,2,7,4,0,0,0,0,3]) = [1,5,6,8]
+CandidatesColumnOne = [1,5,6,8]
+CandidatesColumnTwo => AllDigits.difference(ColumnTwo) => [1,2,3,4,5,6,7,8,9].difference([8,3,0,0,0,7,5,2,0]) = [1,4,6,9]
+CandidatesColumnTwo = [1,4,6,9]
+CandidatesColumnThree => AllDigits.difference(ColumnThree) => [1,2,3,4,5,6,7,8,9].difference([5,1,6,0,3,0,4,0,9]) = [2,7,8]
+CandidatesColumnThree = [2,7,8]
+CandidatesColumnFour => AllDigits.difference(ColumnFour) => [1,2,3,4,5,6,7,8,9].difference([3,8,0,6,2,0,7,0,0]) = [1,4,5,9]
+CandidatesColumnFour = [1,4,5,9]
+CandidatesColumnFive => AllDigits.difference(ColumnFive) => [1,2,3,4,5,6,7,8,9].difference([1,4,5,0,0,8,6,0,2]) = [3,7,9]
+CandidatesColumnFive = [3,7,9]
+CandidatesColumnSix => AllDigits.difference(ColumnSix) => [1,2,3,4,5,6,7,8,9].difference([6,7,0,0,0,3,0,0,0]) = [1,2,4,5,8,9]
+CandidatesColumnSix = [1,2,4,5,8,9]
+CandidatesColumnSeven => AllDigits.difference(ColumnSeven) => [1,2,3,4,5,6,7,8,9].difference([4,9,1,3,0,0,2,0,0]) = [5,6,7,8]
+CandidatesColumnSeven = [5,6,7,8]
+CandidatesColumnEight => AllDigits.difference(ColumnEight) => [1,2,3,4,5,6,7,8,9].difference([2,6,8,0,7,4,0,0,0]) = [1,3,5,9]
+CandidatesColumnEight = [1,3,5,9]
+CandidatesColumnNine => AllDigits.difference(ColumnNine) => [1,2,3,4,5,6,7,8,9].difference([0,5,3,0,0,9,0,4,8]) = [1,2,6,7]
+CandidatesColumnNine = [1,2,6,7]
+
+# Block Candidates
+AllDigits = [1,2,3,4,5,6,7,8,9]
+CandidatesBlockOne => AllDigits.difference(BlockOne) => [1,2,3,4,5,6,7,8,9].difference([9,8,5,2,3,1,7,0,6]) = [4]
+CandidatesBlockOne = [4]
+CandidatesBlockTwo => AllDigits.difference(BlockTwo) => [1,2,3,4,5,6,7,8,9].difference([3,1,6,8,4,7,0,5,0]) = [2,9]
+CandidatesBlockTwo = [2,9]
+CandidatesBlockThree => AllDigits.difference(BlockThree) => [1,2,3,4,5,6,7,8,9].difference([4,2,0,9,6,5,1,8,3]) = [7]
+CandidatesBlockThree = [7]
+CandidatesBlockFour => AllDigits.difference(BlockFour) => [1,2,3,4,5,6,7,8,9].difference([4,0,0,0,0,3,0,7,0]) = [1,2,5,6,8,9]
+CandidatesBlockFour = [1,2,5,6,8,9]
+CandidatesBlockFive => AllDigits.difference(BlockFive) => [1,2,3,4,5,6,7,8,9].difference([6,0,0,2,0,0,0,8,3]) = [1,4,5,7,9]
+CandidatesBlockFive = [1,4,5,7,9]
+CandidatesBlockSix => AllDigits.difference(BlockSix) => [1,2,3,4,5,6,7,8,9].difference([3,0,0,0,7,0,0,4,9]) = [1,2,5,6,8]
+CandidatesBlockSix = [1,2,5,6,8]
+CandidatesBlockSeven => AllDigits.difference(BlockSeven) => [1,2,3,4,5,6,7,8,9].difference([0,5,4,0,2,0,3,0,9]) = [1,6,7,8]
+CandidatesBlockSeven = [1,6,7,8]
+CandidatesBlockEight => AllDigits.difference(BlockEight) => [1,2,3,4,5,6,7,8,9].difference([7,6,0,0,0,0,0,2,0]) = [1,3,4,5,8,9]
+CandidatesBlockEight = [1,3,4,5,8,9]
+CandidatesBlockNine => AllDigits.difference(BlockNine) => [1,2,3,4,5,6,7,8,9].difference([2,0,0,0,0,4,0,0,8]) = [1,3,5,6,7,9]
+CandidatesBlockNine = [1,3,5,6,7,9]
+
+# Index of all zeros, by row
+RowOne = [9,8,5,3,1,6,4,2,0]
+Now finding the index of Each 0 element in RowOne
+RowOne[0] = 9
+RowOne[1] = 8
+RowOne[2] = 5
+RowOne[3] = 3
+RowOne[4] = 1
+RowOne[5] = 6
+RowOne[6] = 4
+RowOne[7] = 2
+RowOne[8] = 0
+IndexOfAll0ElementsInRowOne => [8]
+ColumnPositionOfAll0ElementsRowOne => map(element+1, IndexOfAll0ElementsInRowOne) = [9]
+EmptyColumnNamesRowOne = [ColumnNine]
+
+RowTwo = [2,3,1,8,4,7,9,6,5]
+Now finding the index of Each 0 element in RowTwo
+RowTwo[0] = 2
+RowTwo[1] = 3
+RowTwo[2] = 1
+RowTwo[3] = 8
+RowTwo[4] = 4
+RowTwo[5] = 7
+RowTwo[6] = 9
+RowTwo[7] = 6
+RowTwo[8] = 5
+IndexOfAll0ElementsInRowTwo => []
+ColumnPositionOfAll0ElementsRowTwo => map(element+1, IndexOfAll0ElementsInRowTwo) = []
+EmptyColumnNamesRowTwo = []
+
+RowThree = [7,0,6,0,5,0,1,8,3]
+Now finding the index of Each 0 element in RowThree
+RowThree[0] = 7
+RowThree[1] = 0
+RowThree[2] = 6
+RowThree[3] = 0
+RowThree[4] = 5
+RowThree[5] = 0
+RowThree[6] = 1
+RowThree[7] = 8
+RowThree[8] = 3
+IndexOfAll0ElementsInRowThree => [1,3,5]
+ColumnPositionOfAll0ElementsRowThree => map(element+1, IndexOfAll0ElementsInRowThree) = [2,4,6]
+EmptyColumnNamesRowThree = [ColumnTwo,ColumnFour,ColumnSix]
+
+RowFour = [4,0,0,6,0,0,3,0,0]
+Now finding the index of Each 0 element in RowFour
+RowFour[0] = 4
+RowFour[1] = 0
+RowFour[2] = 0
+RowFour[3] = 6
+RowFour[4] = 0
+RowFour[5] = 0
+RowFour[6] = 3
+RowFour[7] = 0
+RowFour[8] = 0
+IndexOfAll0ElementsInRowFour => [1,2,4,5,7,8]
+ColumnPositionOfAll0ElementsRowFour => map(element+1, IndexOfAll0ElementsInRowFour) = [2,3,5,6,8,9]
+EmptyColumnNamesRowFour = [ColumnTwo,ColumnThree,ColumnFive,ColumnSix,ColumnEight,ColumnNine]
+
+RowFive = [0,0,3,2,0,0,0,7,0]
+Now finding the index of Each 0 element in RowFive
+RowFive[0] = 0
+RowFive[1] = 0
+RowFive[2] = 3
+RowFive[3] = 2
+RowFive[4] = 0
+RowFive[5] = 0
+RowFive[6] = 0
+RowFive[7] = 7
+RowFive[8] = 0
+IndexOfAll0ElementsInRowFive => [0,1,4,5,6,8]
+ColumnPositionOfAll0ElementsRowFive => map(element+1, IndexOfAll0ElementsInRowFive) = [1,2,5,6,7,9]
+EmptyColumnNamesRowFive = [ColumnOne,ColumnTwo,ColumnFive,ColumnSix,ColumnSeven,ColumnNine]
+
+RowSix = [0,7,0,0,8,3,0,4,9]
+Now finding the index of Each 0 element in RowSix
+RowSix[0] = 0
+RowSix[1] = 7
+RowSix[2] = 0
+RowSix[3] = 0
+RowSix[4] = 8
+RowSix[5] = 3
+RowSix[6] = 0
+RowSix[7] = 4
+RowSix[8] = 9
+IndexOfAll0ElementsInRowSix => [0,2,3,6]
+ColumnPositionOfAll0ElementsRowSix => map(element+1, IndexOfAll0ElementsInRowSix) = [1,3,4,7]
+EmptyColumnNamesRowSix = [ColumnOne,ColumnThree,
+
+----------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+turn 7 - prompt_A
+
+Started at: 2023-12-01 00:56:10
+Finished at: 2023-12-01 01:01:50
+Time taken: 339.6609342098236 seconds
+
+Prompt tokens: 8366
+Completion tokens: 4000
+Total tokens: 12366
+
+Total prompt tokens: 12731
+Total completion tokens: 8000
+Total tokens: 20731
+
+model:
+gpt-4-1106-preview
+
+temperature:
+0
+
+seed:
+2
+
+fingerprint:
+fp_a24b4d720c
+
+entry 1 of 7
+system:
+You are going to analyze the sudoku you've just been given. When printing, follow the requested formats Exactly as given by the prompt, with no additions, omissions, or shortcuts.
+- For each section, start by printing the section heading, which are lines beginning with #, ##, or ###.
+- Lines beginning with a dash are instructions, '- {instructions to follow}'.
+- All other lines are to be printed. They are to be printed Verbatim, with nothing changed except for filling in values surrounded by curly brackets {values to replace are given like this}, or filling in list elements when asked [the elements of {list_name}].
+- When asked to perform calculations, do so Carefully and with Full Accuracy.
+- When asked to use a value from a previous section, fetch and use the Already Existing Value, Do Not recalculate it. It was calculated accurately already.
+- Many sections require printing the contents multiple times, such as once for each instance in a list (or similar). Do this when asked, making sure to print the contents the Full requested number of items, once for each item.
+- Some sections are, themselves, meant to be printed multiple times. These are:
+    - The '## {row_name} Candidates' section, for rows with empty elements.
+    - And the '### {current_cell_count} of {MaxCells}' section, for empty cells (cells with a value of 0).
+- The value of MaxCells will be calculated either as 20, or a number less than 20. MaxCells determines how many times the following sections are repeated, these are:
+    - The '### {current_cell_count} of {MaxCells}' section is printed Exactly {MaxCells} times, NEVER less than that. The Only time it is printed less than 20 times is when ALL empty cells in the Entire sudoku have been processed, otherwise it is printed the Full 20 times.
+    - The '## {row_name} Candidates' section is printed however many times is required for the '### {current_cell_count} of {MaxCells}' section to be printed the Full and Correct number of times. So if the '### {current_cell_count} of {MaxCells}' section has not yet been printed {MaxCells} times when a row ends, then the '## {row_name} Candidates' section must be printed again for the next required row.
+- When a section is repeated, it should always use the next required value or item (the items to iterate over are described in the section).
+- Go through the sections in the given order, following the given instructions exactly for each.
+- If a section header is marked by '(this section is not printed)', then do not print that section.
+- Each must be done section In Full.
+
+Some notes on specific sections:
+- In the '# Index of all zeros, by row' section, you Must get the index of Every 0 element in each row. It is Vital to get this correct, so the row elements are checked one by one for each row. The index of any 0 digit of a row found by checking one by one, is then added to a single list to be converted to column names for that row.
+- In each '### {current_cell_count} of {MaxCells}' section, when fetching the block name, you Must use the 'Reference: Row and Column to Block' table from the '## {row_name} Candidates' section of the current row to get the correct block name.
+- Also in the '### {current_cell_count} of {MaxCells}' section, take care to use the Correct Candidates lists for the current Row, Column, and Block. The Correct list elements Must be fetched and printed to be used for calculations.
+
+Do not use spaces in lists anywhere, just use commas without spaces to separate elements.
+
+entry 2 of 7
+user:
+<output>
+RowOne: [9,8,5,3,1,6,4,2,0]
+RowTwo: [2,3,1,8,4,7,9,6,5]
+RowThree: [7,0,6,0,5,0,1,8,3]
+RowFour: [4,0,0,6,0,0,3,0,0]
+RowFive: [0,0,3,2,0,0,0,7,0]
+RowSix: [0,7,0,0,8,3,0,4,9]
+RowSeven: [0,5,4,7,6,0,2,0,0]
+RowEight: [0,2,0,0,0,0,0,0,4]
+RowNine: [3,0,9,0,2,0,0,0,8]
+</output>
+
+entry 3 of 7
+assistant:
+Awaiting instructions.
+
+entry 4 of 7
+user:
+- You are going to analyze the sudoku you've just been given.
+- All lists should have comma separated elements Without spaces.
+
+- First print the title:
+PART ONE, GROUPS AND CANDIDATES
+
+- Then begin.
+# Rows
+- Display the board state in terms of the rows.
+- Use (almost) the exact format as the sudoku given in the output tags, using 'Row{row_number}' for the row names (for example, 'RowOne').
+- The only difference is you write '{row_name} = [the elements of {row_name}]' instead of '{row_name}: [the elements of {row_name}]' for each row.
+- Do all rows.
+
+
+# Columns
+- Display the board state in terms of the columns.
+- Use the same format as in the '# Rows' section, using 'Column{column_number}' for the column names.
+- Do all columns.
+
+
+# Blocks
+- Display the board state in terms of the blocks.
+- Do all blocks.
+- Use 'Block{block_number}' for the block names.
+- Give each in a 3x3 matrix, followed immediately by the same Block and elements as a standard list, using the format:
+Block{block_number}:
+[[a,b,c],
+[d,e,f],
+[g,h,i]]
+Block{block_number} = [a,b,c,d,e,f,g,h,i]
+
+
+# Row Candidates
+- Now produce the row candidates.
+- Do all rows, one at a time.
+
+- First write out AllDigits for reference:
+AllDigits = [1,2,3,4,5,6,7,8,9]
+
+- For each row in '# Rows', write out the digits NOT in the row using the following format:
+Candidates{row_name} => AllDigits.difference({row_name}) => [1,2,3,4,5,6,7,8,9].difference([the elements of {row_name}] from '# Rows') = [digits from AllDigits (1 to 9) not in {row_name}]
+Candidates{row_name} = [the Candidates{row_name} elements you just calculated at the end of the previous line]
+- You Must write out both lines for each Row, first the calculation line, followed Immediately by the second more concise line. This is Required.
+
+
+# Column Candidates
+- Now produce the column candidates.
+- Do all columns, one at a time.
+
+- First write out AllDigits for reference:
+AllDigits = [1,2,3,4,5,6,7,8,9]
+
+- For each column in '# Columns', write out the digits NOT in the column using the following format:
+Candidates{column_name} => AllDigits.difference({column_name}) => [1,2,3,4,5,6,7,8,9].difference([the elements of {column_name} from '# Columns']) = [digits from AllDigits (digits 1 to 9) not in {column_name}]
+Candidates{column_name} = [the Candidates{column_name} elements you just calculated at the end of the previous line]
+- You Must write out both lines for each Column, first the calculation line, followed Immediately by the second more concise line. This is Required.
+
+
+# Block Candidates
+- Now produce the block candidates.
+- Do all blocks, one at a time.
+
+- First write out AllDigits for reference:
+AllDigits = [1,2,3,4,5,6,7,8,9]
+
+- For each block in '# Blocks', write out the digits NOT in the block using the following format:
+Candidates{block_name} => AllDigits.difference({block_name}) => [1,2,3,4,5,6,7,8,9].difference([the elements of {block_name} from '# Blocks']) = [digits from AllDigits (digits 1 to 9) not in {block_name}]
+Candidates{block_name} = [the Candidates{block_name} elements you just calculated at the end of the previous line]
+- You Must write out both lines for each Block, first the calculation line, followed Immediately by the second more concise line. This is Required.
+
+
+# Index of all zeros, by row
+- Do all rows, one at a time.
+
+- For each row in '# Rows', carefully calculate the index of Every 0 element in {row_name}, using the format below for each row.
+- First each element {row_name}[0 to 8] is checked.
+- Then the index of each 0 element is put into one list.
+- Then add one to each index to turn them into column positions.
+- Then convert the column positions to column names.
+- Do this for all rows.
+{row_name} = [list the elements of {row_name} from '# Rows']
+Now finding the index of Each 0 element in {row_name}
+{row_name}[0] = {the element at {row_name}[0]}
+{row_name}[1] = {the element at {row_name}[1]}
+{row_name}[2] = {the element at {row_name}[2]}
+{row_name}[3] = {the element at {row_name}[3]}
+{row_name}[4] = {the element at {row_name}[4]}
+{row_name}[5] = {the element at {row_name}[5]}
+{row_name}[6] = {the element at {row_name}[6]}
+{row_name}[7] = {the element at {row_name}[7]}
+{row_name}[8] = {the element at {row_name}[8]}
+IndexOfAll0ElementsIn{row_name} => [the index of every 0 element found in {row_name}, from the elements just checked]
+ColumnPositionOfAll0Elements{row_name} => map(element+1, IndexOfAll0ElementsIn{row_name}) = [elements of IndexOfAll0ElementsIn{row_name} with all elements incremented by 1]
+EmptyColumnNames{row_name} = [Column{column_number as a Word} for column_number in ColumnPositionOfAll0Elements{row_name}]
+
+
+# Calculate the number of empty cells in each row in '# Rows'
+- Use the following as a format:
+total_empty_cells = {Length{row_name} as a number} for each EmptyColumnNames{row_name} = {total sum}
+- This will look like:
+total_empty_cells = {number} + {number} + {number}, + {number} + {number} + {number}, + {number} + {number} + {number} = {total sum}
+
+
+# Calculate MaxCells:
+- Cap the number of cells to list:
+MaxCells => min({total_empty_cells}, 20) = (the lower of 20 or {total_empty_cells})
+
+
+PART TWO, CELL CANDIDATES
+# Cell Candidates
+- Calculate the cell candidates of the empty cells, up to MaxCells.
+- Iterate through the empty cells from, stopping immediately after processing all {MaxCells} cells.
+- To ensure only empty cells are processed, print the '## {row_name} Candidates' section when beginning each row.
+
+- When you get to the start of a new row (and have not yet reached MaxCells), print the following to use as a reference (elements of EmptyColumnNames{row_name}, note on last empty column of the row, note on digits in lists, the row and column to block reference title, then Exactly three Row and Column to Block reference lines).
+- Do this at the start of Each row when you get to it (until MaxCells). Then proceed with processing the empty cells in that row.
+- Everything MUST be printed using the formats provided. This is Required.
+## {row_name} Candidates
+- Print the EmptyColumnNames for the current row, with the format:
+EmptyColumnNames{row_name}: [list the column_names in EmptyColumnNames{row_name} from '# Index of all zeros, by row']
+- Then print the following notes, with the format:
+Note, the last empty column of the {row_name} is {EmptyColumnNames{row_name}[-1]}
+Note, digits in lists will Only consist of subsets of AllDigits = [1,2,3,4,5,6,7,8,9]
+- Then print the title for the block_name reference (Must be printed):
+Reference: Row and Column to Block
+- Then print EXACTLY AND ONLY THREE of the following reference lines. These are the Row and Column to Block reference table and Must be printed as is (only filling in the row_name). Change NOTHING about the lines other than filling in 'Row{row_number}' to the current row_name. You MUST print all three lines and leave the columns and blocks unchanged in each.
+- These three for RowOne, RowTwo, or RowThree
+Row{row_number == One|Two|Three} and ColumnOne, ColumnTwo, or ColumnThree means BlockOne
+Row{row_number == One|Two|Three} and ColumnFour, ColumnFive, or ColumnSix means BlockTwo
+Row{row_number == One|Two|Three} and ColumnSeven, ColumnEight, or ColumnNine means BlockThree
+- OR these three for RowFour, RowFive, or RowSix
+Row{row_number == Four|Five|Six} and ColumnOne, ColumnTwo, or ColumnThree means BlockFour
+Row{row_number == Four|Five|Six} and ColumnFour, ColumnFive, or ColumnSix means BlockFive
+Row{row_number == Four|Five|Six} and ColumnSeven, ColumnEight, or ColumnNine means BlockSix
+- OR these three for RowSeven, RowEight, or RowNine
+Row{row_number == Seven|Eight|Nine} and ColumnOne, ColumnTwo, or ColumnThree means BlockSeven
+Row{row_number == Seven|Eight|Nine} and ColumnFour, ColumnFive, or ColumnSix means BlockEight
+Row{row_number == Seven|Eight|Nine} and ColumnSeven, ColumnEight, or ColumnNine means BlockNine
+- end of the '## {row_name} Candidates' format
+
+- For each empty cell in EmptyColumnNames{row_name}, up to a maximum of {MaxCells}, calculate the cell candidates using the format below.
+- (List out the elements of a list when instructed).
+- (Everything MUST be printed using the formats provided. This is Required).
+### {current_cell_count} of {MaxCells}
+Up to {column_name} in EmptyColumnNames{row_name}
+The last empty column of EmptyColumnNames{row_name} is {EmptyColumnNames{row_name}[-1]}
+- if {column_name} is the last empty column of EmptyColumnNames{row_name}:
+    print("Last column of current row")
+    - And If it is NOT the last cell of the section ({current_cell_count} != {MaxCells}), Also add:
+        print("The next row is {next row_name with empty columns})
+- else:
+    print("Not the last column of current row")
+{row_name} and {column_name} means {use the current Row and Column with the 'Reference: Row and Column to Block' table from the '## {row_name} Candidates' section of the current row to get the correct {block_name}}
+import Candidates{row_name}, Candidates{column_name}, Candidates{block_name}
+- You MUST use the already calculated Candidate elements for the current Row, Column, and Block (it is Required to use the already existing Candidates lists). You Must reprint the elements here to refresh them.
+Candidates{row_name} = [the elements of Candidates{row_name} from '# Row Candidates']
+Candidates{column_name} = [the elements of Candidates{column_name} from '# Column Candidates']
+Candidates{block_name} = [the elements of Candidates{block_name} from '# Block Candidates']
+Finding Common Elements:
+- Use the following format to calculate the elements common to both the current row, and the current column.
+CommonElementsOf{row_name}And{column_name} => [the elements of Candidates{row_name}] & [the elements of Candidates{column_name}] = [element if element in Candidates{row_name} and if element in Candidates{column_name}]
+- Use the following format to calculate the elements common to both the results of the previous line (the common row and column elements), and the current block.
+CommonElementsOf{row_name}And{column_name}And{block_name} => [the elements of CommonElementsOf{row_name}And{column_name}] & [the elements of Candidates{block_name}] = [element if element in CommonElementsOf{row_name}And{column_name} and if element in Candidates{block_name}]
+CellCandidates = [list the calculated elements of CommonElementsOf{row_name}And{column_name}And{block_name} exactly as they appear at the end of the previous line, and with No Spaces]
+Length = {CellCandidates.length}
+- If Length == 1, print the line:
+FOUND {row_name}, {column_name}, {block_name}
+- Else, print the line:
+Not 1
+{at the end of each cell, print a newline}
+- then move to the next empty cell until All {MaxCells} empty cells are done.
+- end of the '### {current_cell_count} of {MaxCells}' format
+
+- Calculate the candidates for all {MaxCells} cells starting from the top (though never more than 20 cells, that is the max).
+- As soon as you have finished processing all {MaxCells} of {MaxCells} cells, Stop Listing Cells, and print:
+Finished printing {MaxCells} of {MaxCells} cells
+- This is ONLY when {current_cell_count} == {MaxCells}, NEVER before.
+
+
+PART THREE, OUTPUT
+# Outputting FOUND Cells
+## Collating Results, Six Max
+- For every (up to six) empty cell which had only one element in CellCandidates, marked by "FOUND", find and output all of the FOUND cells (up to a Maximum of 6 FOUND cells) in one place using the same format as the `FOUND {row_name}, {column_name}, {block_name}` line:
+{count from 1 to (at most) 6}: FOUND {row_name}, {column_name, {block_name}}
+- If there were six or more cells with only one CellCandidates, print the following As Soon as you have printed six cells (the max) (if less than six, skip to the Else If below), and then don't print the rest:
+Printed The Max Of Six FOUND Cells
+- Else If you have printed all FOUND cells, but there were less than six, at the end of the FOUND cells print:
+Printed all {number_of_FOUND_cells (when Less than 6 are found)} FOUND cells
+- Make sure to list all of the ones you found up to a max of six (if there were less than six, just print the ones you found).
+- If there where none, instead print "There were no empty cells with only one cell candidate"
+
+## Unbiased Results
+- You MUST print the '## Unbiased Results' section heading, so it can be picked up by the system.
+- For every cell in the '## Collating Results' section (up to a MAX of 6), list them in the format:
+cell({row_name}, {column_name}, {block_name}):
+Candidates{row_name} = [the elements of Candidates{row_name} from '# Row Candidates']
+Candidates{column_name} = [the elements of Candidates{column_name} from '# Column Candidates']
+Candidates{block_name} = [the elements of Candidates{block_name} from '# Block Candidates']
+{newline}
+- Surround the entire list of cells with <analysis output></analysis output> tags.
+- If there were no found cells, output the <analysis output></analysis output> tags containing only the phrase "There were no empty cells with only one cell candidate"
+- (Do not put anything after the closing analysis output tag).
+
+
+- # Final Notes (this section is not printed)
+- You Must Finish All Sections In Full. Do not stop until All Sections are Fully Finished.
+- Print the provided headers when appropriate.
+- Use these instructions to analyze the sudoku.
+- Begin.
+
+entry 5 of 7
+assistant:
+PART ONE, GROUPS AND CANDIDATES
+# Rows
+RowOne = [9,8,5,3,1,6,4,2,0]
+RowTwo = [2,3,1,8,4,7,9,6,5]
+RowThree = [7,0,6,0,5,0,1,8,3]
+RowFour = [4,0,0,6,0,0,3,0,0]
+RowFive = [0,0,3,2,0,0,0,7,0]
+RowSix = [0,7,0,0,8,3,0,4,9]
+RowSeven = [0,5,4,7,6,0,2,0,0]
+RowEight = [0,2,0,0,0,0,0,0,4]
+RowNine = [3,0,9,0,2,0,0,0,8]
+
+# Columns
+ColumnOne = [9,2,7,4,0,0,0,0,3]
+ColumnTwo = [8,3,0,0,0,7,5,2,0]
+ColumnThree = [5,1,6,0,3,0,4,0,9]
+ColumnFour = [3,8,0,6,2,0,7,0,0]
+ColumnFive = [1,4,5,0,0,8,6,0,2]
+ColumnSix = [6,7,0,0,0,3,0,0,0]
+ColumnSeven = [4,9,1,3,0,0,2,0,0]
+ColumnEight = [2,6,8,0,7,4,0,0,0]
+ColumnNine = [0,5,3,0,0,9,0,4,8]
+
+# Blocks
+BlockOne:
+[[9,8,5],
+[2,3,1],
+[7,0,6]]
+BlockOne = [9,8,5,2,3,1,7,0,6]
+
+BlockTwo:
+[[3,1,6],
+[8,4,7],
+[0,5,0]]
+BlockTwo = [3,1,6,8,4,7,0,5,0]
+
+BlockThree:
+[[4,2,0],
+[9,6,5],
+[1,8,3]]
+BlockThree = [4,2,0,9,6,5,1,8,3]
+
+BlockFour:
+[[4,0,0],
+[0,0,3],
+[0,7,0]]
+BlockFour = [4,0,0,0,0,3,0,7,0]
+
+BlockFive:
+[[6,0,0],
+[2,0,0],
+[0,8,3]]
+BlockFive = [6,0,0,2,0,0,0,8,3]
+
+BlockSix:
+[[3,0,0],
+[0,7,0],
+[0,4,9]]
+BlockSix = [3,0,0,0,7,0,0,4,9]
+
+BlockSeven:
+[[0,5,4],
+[0,2,0],
+[3,0,9]]
+BlockSeven = [0,5,4,0,2,0,3,0,9]
+
+BlockEight:
+[[7,6,0],
+[0,0,0],
+[0,2,0]]
+BlockEight = [7,6,0,0,0,0,0,2,0]
+
+BlockNine:
+[[2,0,0],
+[0,0,4],
+[0,0,8]]
+BlockNine = [2,0,0,0,0,4,0,0,8]
+
+# Row Candidates
+AllDigits = [1,2,3,4,5,6,7,8,9]
+CandidatesRowOne => AllDigits.difference(RowOne) => [1,2,3,4,5,6,7,8,9].difference([9,8,5,3,1,6,4,2,0]) = [7]
+CandidatesRowOne = [7]
+CandidatesRowTwo => AllDigits.difference(RowTwo) => [1,2,3,4,5,6,7,8,9].difference([2,3,1,8,4,7,9,6,5]) = []
+CandidatesRowTwo = []
+CandidatesRowThree => AllDigits.difference(RowThree) => [1,2,3,4,5,6,7,8,9].difference([7,0,6,0,5,0,1,8,3]) = [2,4,9]
+CandidatesRowThree = [2,4,9]
+CandidatesRowFour => AllDigits.difference(RowFour) => [1,2,3,4,5,6,7,8,9].difference([4,0,0,6,0,0,3,0,0]) = [1,2,5,7,8,9]
+CandidatesRowFour = [1,2,5,7,8,9]
+CandidatesRowFive => AllDigits.difference(RowFive) => [1,2,3,4,5,6,7,8,9].difference([0,0,3,2,0,0,0,7,0]) = [1,4,5,6,8,9]
+CandidatesRowFive = [1,4,5,6,8,9]
+CandidatesRowSix => AllDigits.difference(RowSix) => [1,2,3,4,5,6,7,8,9].difference([0,7,0,0,8,3,0,4,9]) = [1,2,5,6]
+CandidatesRowSix = [1,2,5,6]
+CandidatesRowSeven => AllDigits.difference(RowSeven) => [1,2,3,4,5,6,7,8,9].difference([0,5,4,7,6,0,2,0,0]) = [1,3,8,9]
+CandidatesRowSeven = [1,3,8,9]
+CandidatesRowEight => AllDigits.difference(RowEight) => [1,2,3,4,5,6,7,8,9].difference([0,2,0,0,0,0,0,0,4]) = [1,3,5,6,7,8,9]
+CandidatesRowEight = [1,3,5,6,7,8,9]
+CandidatesRowNine => AllDigits.difference(RowNine) => [1,2,3,4,5,6,7,8,9].difference([3,0,9,0,2,0,0,0,8]) = [1,4,5,6,7]
+CandidatesRowNine = [1,4,5,6,7]
+
+# Column Candidates
+AllDigits = [1,2,3,4,5,6,7,8,9]
+CandidatesColumnOne => AllDigits.difference(ColumnOne) => [1,2,3,4,5,6,7,8,9].difference([9,2,7,4,0,0,0,0,3]) = [1,5,6,8]
+CandidatesColumnOne = [1,5,6,8]
+CandidatesColumnTwo => AllDigits.difference(ColumnTwo) => [1,2,3,4,5,6,7,8,9].difference([8,3,0,0,0,7,5,2,0]) = [1,4,6,9]
+CandidatesColumnTwo = [1,4,6,9]
+CandidatesColumnThree => AllDigits.difference(ColumnThree) => [1,2,3,4,5,6,7,8,9].difference([5,1,6,0,3,0,4,0,9]) = [2,7,8]
+CandidatesColumnThree = [2,7,8]
+CandidatesColumnFour => AllDigits.difference(ColumnFour) => [1,2,3,4,5,6,7,8,9].difference([3,8,0,6,2,0,7,0,0]) = [1,4,5,9]
+CandidatesColumnFour = [1,4,5,9]
+CandidatesColumnFive => AllDigits.difference(ColumnFive) => [1,2,3,4,5,6,7,8,9].difference([1,4,5,0,0,8,6,0,2]) = [3,7,9]
+CandidatesColumnFive = [3,7,9]
+CandidatesColumnSix => AllDigits.difference(ColumnSix) => [1,2,3,4,5,6,7,8,9].difference([6,7,0,0,0,3,0,0,0]) = [1,2,4,5,8,9]
+CandidatesColumnSix = [1,2,4,5,8,9]
+CandidatesColumnSeven => AllDigits.difference(ColumnSeven) => [1,2,3,4,5,6,7,8,9].difference([4,9,1,3,0,0,2,0,0]) = [5,6,7,8]
+CandidatesColumnSeven = [5,6,7,8]
+CandidatesColumnEight => AllDigits.difference(ColumnEight) => [1,2,3,4,5,6,7,8,9].difference([2,6,8,0,7,4,0,0,0]) = [1,3,5,9]
+CandidatesColumnEight = [1,3,5,9]
+CandidatesColumnNine => AllDigits.difference(ColumnNine) => [1,2,3,4,5,6,7,8,9].difference([0,5,3,0,0,9,0,4,8]) = [1,2,6,7]
+CandidatesColumnNine = [1,2,6,7]
+
+# Block Candidates
+AllDigits = [1,2,3,4,5,6,7,8,9]
+CandidatesBlockOne => AllDigits.difference(BlockOne) => [1,2,3,4,5,6,7,8,9].difference([9,8,5,2,3,1,7,0,6]) = [4]
+CandidatesBlockOne = [4]
+CandidatesBlockTwo => AllDigits.difference(BlockTwo) => [1,2,3,4,5,6,7,8,9].difference([3,1,6,8,4,7,0,5,0]) = [2,9]
+CandidatesBlockTwo = [2,9]
+CandidatesBlockThree => AllDigits.difference(BlockThree) => [1,2,3,4,5,6,7,8,9].difference([4,2,0,9,6,5,1,8,3]) = [7]
+CandidatesBlockThree = [7]
+CandidatesBlockFour => AllDigits.difference(BlockFour) => [1,2,3,4,5,6,7,8,9].difference([4,0,0,0,0,3,0,7,0]) = [1,2,5,6,8,9]
+CandidatesBlockFour = [1,2,5,6,8,9]
+CandidatesBlockFive => AllDigits.difference(BlockFive) => [1,2,3,4,5,6,7,8,9].difference([6,0,0,2,0,0,0,8,3]) = [1,4,5,7,9]
+CandidatesBlockFive = [1,4,5,7,9]
+CandidatesBlockSix => AllDigits.difference(BlockSix) => [1,2,3,4,5,6,7,8,9].difference([3,0,0,0,7,0,0,4,9]) = [1,2,5,6,8]
+CandidatesBlockSix = [1,2,5,6,8]
+CandidatesBlockSeven => AllDigits.difference(BlockSeven) => [1,2,3,4,5,6,7,8,9].difference([0,5,4,0,2,0,3,0,9]) = [1,6,7,8]
+CandidatesBlockSeven = [1,6,7,8]
+CandidatesBlockEight => AllDigits.difference(BlockEight) => [1,2,3,4,5,6,7,8,9].difference([7,6,0,0,0,0,0,2,0]) = [1,3,4,5,8,9]
+CandidatesBlockEight = [1,3,4,5,8,9]
+CandidatesBlockNine => AllDigits.difference(BlockNine) => [1,2,3,4,5,6,7,8,9].difference([2,0,0,0,0,4,0,0,8]) = [1,3,5,6,7,9]
+CandidatesBlockNine = [1,3,5,6,7,9]
+
+# Index of all zeros, by row
+RowOne = [9,8,5,3,1,6,4,2,0]
+Now finding the index of Each 0 element in RowOne
+RowOne[0] = 9
+RowOne[1] = 8
+RowOne[2] = 5
+RowOne[3] = 3
+RowOne[4] = 1
+RowOne[5] = 6
+RowOne[6] = 4
+RowOne[7] = 2
+RowOne[8] = 0
+IndexOfAll0ElementsInRowOne => [8]
+ColumnPositionOfAll0ElementsRowOne => map(element+1, IndexOfAll0ElementsInRowOne) = [9]
+EmptyColumnNamesRowOne = [ColumnNine]
+
+RowTwo = [2,3,1,8,4,7,9,6,5]
+Now finding the index of Each 0 element in RowTwo
+RowTwo[0] = 2
+RowTwo[1] = 3
+RowTwo[2] = 1
+RowTwo[3] = 8
+RowTwo[4] = 4
+RowTwo[5] = 7
+RowTwo[6] = 9
+RowTwo[7] = 6
+RowTwo[8] = 5
+IndexOfAll0ElementsInRowTwo => []
+ColumnPositionOfAll0ElementsRowTwo => map(element+1, IndexOfAll0ElementsInRowTwo) = []
+EmptyColumnNamesRowTwo = []
+
+RowThree = [7,0,6,0,5,0,1,8,3]
+Now finding the index of Each 0 element in RowThree
+RowThree[0] = 7
+RowThree[1] = 0
+RowThree[2] = 6
+RowThree[3] = 0
+RowThree[4] = 5
+RowThree[5] = 0
+RowThree[6] = 1
+RowThree[7] = 8
+RowThree[8] = 3
+IndexOfAll0ElementsInRowThree => [1,3,5]
+ColumnPositionOfAll0ElementsRowThree => map(element+1, IndexOfAll0ElementsInRowThree) = [2,4,6]
+EmptyColumnNamesRowThree = [ColumnTwo,ColumnFour,ColumnSix]
+
+RowFour = [4,0,0,6,0,0,3,0,0]
+Now finding the index of Each 0 element in RowFour
+RowFour[0] = 4
+RowFour[1] = 0
+RowFour[2] = 0
+RowFour[3] = 6
+RowFour[4] = 0
+RowFour[5] = 0
+RowFour[6] = 3
+RowFour[7] = 0
+RowFour[8] = 0
+IndexOfAll0ElementsInRowFour => [1,2,4,5,7,8]
+ColumnPositionOfAll0ElementsRowFour => map(element+1, IndexOfAll0ElementsInRowFour) = [2,3,5,6,8,9]
+EmptyColumnNamesRowFour = [ColumnTwo,ColumnThree,ColumnFive,ColumnSix,ColumnEight,ColumnNine]
+
+RowFive = [0,0,3,2,0,0,0,7,0]
+Now finding the index of Each 0 element in RowFive
+RowFive[0] = 0
+RowFive[1] = 0
+RowFive[2] = 3
+RowFive[3] = 2
+RowFive[4] = 0
+RowFive[5] = 0
+RowFive[6] = 0
+RowFive[7] = 7
+RowFive[8] = 0
+IndexOfAll0ElementsInRowFive => [0,1,4,5,6,8]
+ColumnPositionOfAll0ElementsRowFive => map(element+1, IndexOfAll0ElementsInRowFive) = [1,2,5,6,7,9]
+EmptyColumnNamesRowFive = [ColumnOne,ColumnTwo,ColumnFive,ColumnSix,ColumnSeven,ColumnNine]
+
+RowSix = [0,7,0,0,8,3,0,4,9]
+Now finding the index of Each 0 element in RowSix
+RowSix[0] = 0
+RowSix[1] = 7
+RowSix[2] = 0
+RowSix[3] = 0
+RowSix[4] = 8
+RowSix[5] = 3
+RowSix[6] = 0
+RowSix[7] = 4
+RowSix[8] = 9
+IndexOfAll0ElementsInRowSix => [0,2,3,6]
+ColumnPositionOfAll0ElementsRowSix => map(element+1, IndexOfAll0ElementsInRowSix) = [1,3,4,7]
+EmptyColumnNamesRowSix = [ColumnOne,ColumnThree,
+
+entry 6 of 7
+user:
+continue
+
+entry 7 of 7
+assistant:
+ColumnFour,ColumnSeven]
+
+RowSeven = [0,5,4,7,6,0,2,0,0]
+Now finding the index of Each 0 element in RowSeven
+RowSeven[0] = 0
+RowSeven[1] = 5
+RowSeven[2] = 4
+RowSeven[3] = 7
+RowSeven[4] = 6
+RowSeven[5] = 0
+RowSeven[6] = 2
+RowSeven[7] = 0
+RowSeven[8] = 0
+IndexOfAll0ElementsInRowSeven => [0,5,7,8]
+ColumnPositionOfAll0ElementsRowSeven => map(element+1, IndexOfAll0ElementsInRowSeven) = [1,6,8,9]
+EmptyColumnNamesRowSeven = [ColumnOne,ColumnSix,ColumnEight,ColumnNine]
+
+RowEight = [0,2,0,0,0,0,0,0,4]
+Now finding the index of Each 0 element in RowEight
+RowEight[0] = 0
+RowEight[1] = 2
+RowEight[2] = 0
+RowEight[3] = 0
+RowEight[4] = 0
+RowEight[5] = 0
+RowEight[6] = 0
+RowEight[7] = 0
+RowEight[8] = 4
+IndexOfAll0ElementsInRowEight => [0,2,3,4,5,6,7]
+ColumnPositionOfAll0ElementsRowEight => map(element+1, IndexOfAll0ElementsInRowEight) = [1,3,4,5,6,7,8]
+EmptyColumnNamesRowEight = [ColumnOne,ColumnThree,ColumnFour,ColumnFive,ColumnSix,ColumnSeven,ColumnEight]
+
+RowNine = [3,0,9,0,2,0,0,0,8]
+Now finding the index of Each 0 element in RowNine
+RowNine[0] = 3
+RowNine[1] = 0
+RowNine[2] = 9
+RowNine[3] = 0
+RowNine[4] = 2
+RowNine[5] = 0
+RowNine[6] = 0
+RowNine[7] = 0
+RowNine[8] = 8
+IndexOfAll0ElementsInRowNine => [1,3,5,6,7]
+ColumnPositionOfAll0ElementsRowNine => map(element+1, IndexOfAll0ElementsInRowNine) = [2,4,6,7,8]
+EmptyColumnNamesRowNine = [ColumnTwo,ColumnFour,ColumnSix,ColumnSeven,ColumnEight]
+
+# Calculate the number of empty cells in each row in '# Rows'
+total_empty_cells = 1 for each EmptyColumnNamesRowOne + 0 for each EmptyColumnNamesRowTwo + 3 for each EmptyColumnNamesRowThree + 6 for each EmptyColumnNamesRowFour + 6 for each EmptyColumnNamesRowFive + 4 for each EmptyColumnNamesRowSix + 4 for each EmptyColumnNamesRowSeven + 7 for each EmptyColumnNamesRowEight + 5 for each EmptyColumnNamesRowNine = 36
+
+# Calculate MaxCells:
+MaxCells => min(total_empty_cells, 20) = 20
+
+PART TWO, CELL CANDIDATES
+# Cell Candidates
+## RowOne Candidates
+EmptyColumnNamesRowOne: [ColumnNine]
+Note, the last empty column of the RowOne is ColumnNine
+Note, digits in lists will Only consist of subsets of AllDigits = [1,2,3,4,5,6,7,8,9]
+Reference: Row and Column to Block
+RowOne and ColumnOne, ColumnTwo, or ColumnThree means BlockOne
+RowOne and ColumnFour, ColumnFive, or ColumnSix means BlockTwo
+RowOne and ColumnSeven, ColumnEight, or ColumnNine means BlockThree
+
+### 1 of 20
+Up to ColumnNine in EmptyColumnNamesRowOne
+The last empty column of EmptyColumnNamesRowOne is ColumnNine
+Last column of current row
+The next row is RowThree
+RowOne and ColumnNine means BlockThree
+import CandidatesRowOne, CandidatesColumnNine, CandidatesBlockThree
+CandidatesRowOne = [7]
+CandidatesColumnNine = [1,2,6,7]
+CandidatesBlockThree = [7]
+Finding Common Elements:
+CommonElementsOfRowOneAndColumnNine => [7] & [1,2,6,7] = [7]
+CommonElementsOfRowOneAndColumnNineAndBlockThree => [7] & [7] = [7]
+CellCandidates = [7]
+Length = 1
+FOUND RowOne, ColumnNine, BlockThree
+
+## RowThree Candidates
+EmptyColumnNamesRowThree: [ColumnTwo,ColumnFour,ColumnSix]
+Note, the last empty column of the RowThree is ColumnSix
+Note, digits in lists will Only consist of subsets of AllDigits = [1,2,3,4,5,6,7,8,9]
+Reference: Row and Column to Block
+RowThree and ColumnOne, ColumnTwo, or ColumnThree means BlockOne
+RowThree and ColumnFour, ColumnFive, or ColumnSix means BlockTwo
+RowThree and ColumnSeven, ColumnEight, or ColumnNine means BlockThree
+
+### 2 of 20
+Up to ColumnTwo in EmptyColumnNamesRowThree
+The last empty column of EmptyColumnNamesRowThree is ColumnSix
+Not the last column of current row
+RowThree and ColumnTwo means BlockOne
+import CandidatesRowThree, CandidatesColumnTwo, CandidatesBlockOne
+CandidatesRowThree = [2,4,9]
+CandidatesColumnTwo = [1,4,6,9]
+CandidatesBlockOne = [4]
+Finding Common Elements:
+CommonElementsOfRowThreeAndColumnTwo => [2,4,9] & [1,4,6,9] = [4,9]
+CommonElementsOfRowThreeAndColumnTwoAndBlockOne => [4,9] & [4] = [4]
+CellCandidates = [4]
+Length = 1
+FOUND RowThree, ColumnTwo, BlockOne
+
+### 3 of 20
+Up to ColumnFour in EmptyColumnNamesRowThree
+The last empty column of EmptyColumnNamesRowThree is ColumnSix
+Not the last column of current row
+RowThree and ColumnFour means BlockTwo
+import CandidatesRowThree, CandidatesColumnFour, CandidatesBlockTwo
+CandidatesRowThree = [2,4,9]
+CandidatesColumnFour = [1,4,5,9]
+CandidatesBlockTwo = [2,9]
+Finding Common Elements:
+CommonElementsOfRowThreeAndColumnFour => [2,4,9] & [1,4,5,9] = [4,9]
+CommonElementsOfRowThreeAndColumnFourAndBlockTwo => [4,9] & [2,9] = [9]
+CellCandidates = [9]
+Length = 1
+FOUND RowThree, ColumnFour, BlockTwo
+
+### 4 of 20
+Up to ColumnSix in EmptyColumnNamesRowThree
+The last empty column of EmptyColumnNamesRowThree is ColumnSix
+Last column of current row
+The next row is RowFour
+RowThree and ColumnSix means BlockTwo
+import CandidatesRowThree, CandidatesColumnSix, CandidatesBlockTwo
+CandidatesRowThree = [2,4,9]
+CandidatesColumnSix = [1,2,4,5,8,9]
+CandidatesBlockTwo = [2,9]
+Finding Common Elements:
+CommonElementsOfRowThreeAndColumnSix => [2,4,9] & [1,2,4,5,8,9] = [2,4,9]
+CommonElementsOfRowThreeAndColumnSixAndBlockTwo => [2,4,9] & [2,9] = [2,9]
+CellCandidates = [2,9]
+Length = 2
+Not 1
+
+## RowFour Candidates
+EmptyColumnNamesRowFour: [ColumnTwo,ColumnThree,ColumnFive,ColumnSix,ColumnEight,ColumnNine]
+Note, the last empty column of the RowFour is ColumnNine
+Note, digits in lists will Only consist of subsets of AllDigits = [1,2,3,4,5,6,7,8,9]
+Reference: Row and Column to Block
+RowFour and ColumnOne, ColumnTwo, or ColumnThree means BlockFour
+RowFour and ColumnFour, ColumnFive, or ColumnSix means BlockFive
+RowFour and ColumnSeven, ColumnEight, or ColumnNine means BlockSix
+
+### 5 of 20
+Up to ColumnTwo in EmptyColumnNamesRowFour
+The last empty column of EmptyColumnNamesRowFour is ColumnNine
+Not the last column of current row
+RowFour and ColumnTwo means BlockFour
+import CandidatesRowFour, CandidatesColumnTwo, CandidatesBlockFour
+CandidatesRowFour = [1,2,5,7,8,9]
+CandidatesColumnTwo = [1,4,6,9]
+CandidatesBlockFour = [1,2,5,6,8,9]
+Finding Common Elements:
+CommonElementsOfRowFourAndColumnTwo => [1,2,5,7,8,9] & [1,4,6,9] = [1,9]
+CommonElementsOfRowFourAndColumnTwoAndBlockFour => [1,9] & [1,2,5,6,8,9] = [1,9]
+CellCandidates = [1,9]
+Length = 2
+Not 1
+
+### 6 of 20
+Up to ColumnThree in EmptyColumnNamesRowFour
+The last empty column of EmptyColumnNamesRowFour is ColumnNine
+Not the last column of current row
+RowFour and ColumnThree means BlockFour
+import CandidatesRowFour, CandidatesColumnThree, CandidatesBlockFour
+CandidatesRowFour = [1,2,5,7,8,9]
+CandidatesColumnThree = [2,7,8]
+CandidatesBlockFour = [1,2,5,6,8,9]
+Finding Common Elements:
+CommonElementsOfRowFourAndColumnThree => [1,2,5,7,8,9] & [2,7,8] = [2,7,8]
+CommonElementsOfRowFourAndColumnThreeAndBlockFour => [2,7,8] & [1,2,5,6,8,9] = [2,8]
+CellCandidates = [2,8]
+Length = 2
+Not 1
+
+### 7 of 20
+Up to ColumnFive in EmptyColumnNamesRowFour
+The last empty column of EmptyColumnNamesRowFour is ColumnNine
+Not the last column of current row
+RowFour and ColumnFive means BlockFive
+import CandidatesRowFour, CandidatesColumnFive, CandidatesBlockFive
+CandidatesRowFour = [1,2,5,7,8,9]
+CandidatesColumnFive = [3,7,9]
+CandidatesBlockFive = [1,4,5,7,9]
+Finding Common Elements:
+CommonElementsOfRowFourAndColumnFive => [1,2,5,7,8,9] & [3,7,9] = [7,9]
+CommonElementsOfRowFourAndColumnFiveAndBlockFive => [7,9] & [1,4,5,7,9] = [7,9]
+CellCandidates = [7,9]
+Length = 2
+Not 1
+
+### 8 of 20
+Up to ColumnSix in EmptyColumnNamesRowFour
+The last empty column of EmptyColumnNamesRowFour is ColumnNine
+Not the last column of current row
+RowFour and ColumnSix means BlockFive
+import CandidatesRowFour, CandidatesColumnSix, CandidatesBlockFive
+CandidatesRowFour = [1,2,5,7,8,9]
+CandidatesColumnSix = [1,2,4,5,8,9]
+CandidatesBlockFive = [1,4,5,7,9]
+Finding Common Elements:
+CommonElementsOfRowFourAndColumnSix => [1,2,5,7,8,9] & [1,2,4,5,8,9] = [1,2,5,8,9]
+CommonElementsOfRowFourAndColumnSixAndBlockFive => [1,2,5,8,9] & [1,4,5,7,9] = [1,5,9]
+CellCandidates = [1,5,9]
+Length = 3
+Not 1
+
+### 9 of 20
+Up to ColumnEight in EmptyColumnNamesRowFour
+The last empty column of EmptyColumnNamesRowFour is ColumnNine
+Not the last column of current row
+RowFour and ColumnEight means BlockSix
+import CandidatesRowFour, CandidatesColumnEight, CandidatesBlockSix
+CandidatesRowFour = [1,2,5,7,8,9]
+CandidatesColumnEight = [1,3,5,9]
+CandidatesBlockSix = [1,2,5,6,8]
+Finding Common Elements:
+CommonElementsOfRowFourAndColumnEight => [1,2,5,7,8,9] & [1,3,5,9] = [1,5,9]
+CommonElementsOfRowFourAndColumnEightAndBlockSix => [1,5,9] & [1,2,5,6,8] = [1,5]
+CellCandidates = [1,5]
+Length = 2
+Not 1
+
+### 10 of 20
+Up to ColumnNine in EmptyColumnNamesRowFour
+The last empty column of EmptyColumnNamesRowFour is ColumnNine
+Last column of current row
+The next row is RowFive
+RowFour and ColumnNine means BlockSix
+import CandidatesRowFour, CandidatesColumnNine, CandidatesBlockSix
+CandidatesRowFour = [1,2,5,7,8,9]
+CandidatesColumnNine = [1,2,6,7]
+CandidatesBlockSix = [1,2,5,6,8]
+Finding Common Elements:
+CommonElementsOfRowFourAndColumnNine => [1,2,5,7,8,9] & [1,2,6,7] = [1,2,7]
+CommonElementsOfRowFourAndColumnNineAndBlockSix => [1,2,7] & [1,2,5,6,8] = [1,2]
+CellCandidates = [1,2]
+Length = 2
+Not 1
+
+## RowFive Candidates
+EmptyColumnNamesRowFive: [ColumnOne,ColumnTwo,ColumnFive,ColumnSix,ColumnSeven,ColumnNine]
+Note, the last empty column of the RowFive is ColumnNine
+Note, digits in lists will Only consist of subsets of AllDigits = [1,2,3,4,5,6,7,8,9]
+Reference: Row and Column to Block
+RowFive and ColumnOne, ColumnTwo, or ColumnThree means BlockFour
+RowFive and ColumnFour, ColumnFive, or ColumnSix means BlockFive
+RowFive and ColumnSeven, ColumnEight, or ColumnNine means BlockSix
+
+### 11 of 20
+Up to ColumnOne in EmptyColumnNamesRowFive
+The last empty column of EmptyColumnNamesRowFive is ColumnNine
+Not the last column of current row
+RowFive and ColumnOne means BlockFour
+import CandidatesRowFive, CandidatesColumnOne, CandidatesBlockFour
+CandidatesRowFive = [1,4,5,6,8,9]
+CandidatesColumnOne = [1,5,6,8]
+CandidatesBlockFour = [1,2,5,6,8,9]
+Finding Common Elements:
+CommonElementsOfRowFiveAndColumnOne => [1,4,5,6,8,9] & [1,5,6,8] = [1,5,6,8]
+CommonElementsOfRowFiveAndColumnOneAndBlockFour => [1,5,6,8] & [1,2,5,6,8,9] = [1,5,6,8]
+CellCandidates = [1,5,6,8]
+Length = 4
+Not 1
+
+### 12 of 20
+Up to ColumnTwo in EmptyColumnNamesRowFive
+The last empty column of EmptyColumnNamesRowFive is ColumnNine
+Not the last column of current row
+RowFive and ColumnTwo means BlockFour
+import CandidatesRowFive, CandidatesColumnTwo, CandidatesBlockFour
+CandidatesRowFive = [1,4,5,6,8,9]
+CandidatesColumnTwo = [1,4,6,9]
+CandidatesBlockFour = [1,2,5,6,8,9]
+Finding Common Elements:
+CommonElementsOfRowFiveAndColumnTwo => [1,4,5,6,8,9] & [1,4,6,9] = [1,4,6,9]
+CommonElementsOfRowFiveAndColumnTwoAndBlockFour => [1,4,6,9] & [1,2,5,6,8,9] = [1,6,9]
+CellCandidates = [1,6,9]
+Length = 3
+Not 1
+
+### 13 of 20
+Up to ColumnFive in EmptyColumnNamesRowFive
+The last empty column of EmptyColumnNamesRowFive is ColumnNine
+Not the last column of current row
+RowFive and ColumnFive means BlockFive
+import CandidatesRowFive, CandidatesColumnFive, CandidatesBlockFive
+CandidatesRowFive = [1,4,5,6,8,9]
+CandidatesColumnFive = [3,7,9]
+CandidatesBlockFive = [1,4,5,7,9]
+Finding Common Elements:
+CommonElementsOfRowFiveAndColumnFive => [1,4,5,6,8,9] & [3,7,9] = [9]
+CommonElementsOfRowFiveAndColumnFiveAndBlockFive => [9] & [1,4,5,7,9] = [9]
+CellCandidates = [9]
+Length = 1
+FOUND RowFive, ColumnFive, BlockFive
+
+### 14 of 20
+Up to ColumnSix in EmptyColumnNamesRowFive
+The last empty column of EmptyColumnNamesRowFive is ColumnNine
+Not the last column of current row
+RowFive and ColumnSix means BlockFive
+import CandidatesRowFive, CandidatesColumnSix, CandidatesBlockFive
+CandidatesRowFive = [1,4,5,6,8,9]
+CandidatesColumnSix = [1,2,4,5,8,9]
+CandidatesBlockFive = [1,4,5,7,9]
+Finding Common Elements:
+CommonElementsOfRowFiveAndColumnSix => [1,4,5,6,8,9] & [1,2,4,5,8,9] = [1,4,5,8,9]
+
+
+----------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+turn 7 - prompt_A
+
+Started at: 2023-12-01 01:01:50
+Finished at: 2023-12-01 01:04:33
+Time taken: 162.490953207016 seconds
+
+Prompt tokens: 12367
+Completion tokens: 1727
+Total tokens: 14094
+
+Total prompt tokens: 25098
+Total completion tokens: 9727
+Total tokens: 34825
+
+model:
+gpt-4-1106-preview
+
+temperature:
+0
+
+seed:
+2
+
+fingerprint:
+fp_a24b4d720c
+
+entry 1 of 9
+system:
+You are going to analyze the sudoku you've just been given. When printing, follow the requested formats Exactly as given by the prompt, with no additions, omissions, or shortcuts.
+- For each section, start by printing the section heading, which are lines beginning with #, ##, or ###.
+- Lines beginning with a dash are instructions, '- {instructions to follow}'.
+- All other lines are to be printed. They are to be printed Verbatim, with nothing changed except for filling in values surrounded by curly brackets {values to replace are given like this}, or filling in list elements when asked [the elements of {list_name}].
+- When asked to perform calculations, do so Carefully and with Full Accuracy.
+- When asked to use a value from a previous section, fetch and use the Already Existing Value, Do Not recalculate it. It was calculated accurately already.
+- Many sections require printing the contents multiple times, such as once for each instance in a list (or similar). Do this when asked, making sure to print the contents the Full requested number of items, once for each item.
+- Some sections are, themselves, meant to be printed multiple times. These are:
+    - The '## {row_name} Candidates' section, for rows with empty elements.
+    - And the '### {current_cell_count} of {MaxCells}' section, for empty cells (cells with a value of 0).
+- The value of MaxCells will be calculated either as 20, or a number less than 20. MaxCells determines how many times the following sections are repeated, these are:
+    - The '### {current_cell_count} of {MaxCells}' section is printed Exactly {MaxCells} times, NEVER less than that. The Only time it is printed less than 20 times is when ALL empty cells in the Entire sudoku have been processed, otherwise it is printed the Full 20 times.
+    - The '## {row_name} Candidates' section is printed however many times is required for the '### {current_cell_count} of {MaxCells}' section to be printed the Full and Correct number of times. So if the '### {current_cell_count} of {MaxCells}' section has not yet been printed {MaxCells} times when a row ends, then the '## {row_name} Candidates' section must be printed again for the next required row.
+- When a section is repeated, it should always use the next required value or item (the items to iterate over are described in the section).
+- Go through the sections in the given order, following the given instructions exactly for each.
+- If a section header is marked by '(this section is not printed)', then do not print that section.
+- Each must be done section In Full.
+
+Some notes on specific sections:
+- In the '# Index of all zeros, by row' section, you Must get the index of Every 0 element in each row. It is Vital to get this correct, so the row elements are checked one by one for each row. The index of any 0 digit of a row found by checking one by one, is then added to a single list to be converted to column names for that row.
+- In each '### {current_cell_count} of {MaxCells}' section, when fetching the block name, you Must use the 'Reference: Row and Column to Block' table from the '## {row_name} Candidates' section of the current row to get the correct block name.
+- Also in the '### {current_cell_count} of {MaxCells}' section, take care to use the Correct Candidates lists for the current Row, Column, and Block. The Correct list elements Must be fetched and printed to be used for calculations.
+
+Do not use spaces in lists anywhere, just use commas without spaces to separate elements.
+
+entry 2 of 9
+user:
+<output>
+RowOne: [9,8,5,3,1,6,4,2,0]
+RowTwo: [2,3,1,8,4,7,9,6,5]
+RowThree: [7,0,6,0,5,0,1,8,3]
+RowFour: [4,0,0,6,0,0,3,0,0]
+RowFive: [0,0,3,2,0,0,0,7,0]
+RowSix: [0,7,0,0,8,3,0,4,9]
+RowSeven: [0,5,4,7,6,0,2,0,0]
+RowEight: [0,2,0,0,0,0,0,0,4]
+RowNine: [3,0,9,0,2,0,0,0,8]
+</output>
+
+entry 3 of 9
+assistant:
+Awaiting instructions.
+
+entry 4 of 9
+user:
+- You are going to analyze the sudoku you've just been given.
+- All lists should have comma separated elements Without spaces.
+
+- First print the title:
+PART ONE, GROUPS AND CANDIDATES
+
+- Then begin.
+# Rows
+- Display the board state in terms of the rows.
+- Use (almost) the exact format as the sudoku given in the output tags, using 'Row{row_number}' for the row names (for example, 'RowOne').
+- The only difference is you write '{row_name} = [the elements of {row_name}]' instead of '{row_name}: [the elements of {row_name}]' for each row.
+- Do all rows.
+
+
+# Columns
+- Display the board state in terms of the columns.
+- Use the same format as in the '# Rows' section, using 'Column{column_number}' for the column names.
+- Do all columns.
+
+
+# Blocks
+- Display the board state in terms of the blocks.
+- Do all blocks.
+- Use 'Block{block_number}' for the block names.
+- Give each in a 3x3 matrix, followed immediately by the same Block and elements as a standard list, using the format:
+Block{block_number}:
+[[a,b,c],
+[d,e,f],
+[g,h,i]]
+Block{block_number} = [a,b,c,d,e,f,g,h,i]
+
+
+# Row Candidates
+- Now produce the row candidates.
+- Do all rows, one at a time.
+
+- First write out AllDigits for reference:
+AllDigits = [1,2,3,4,5,6,7,8,9]
+
+- For each row in '# Rows', write out the digits NOT in the row using the following format:
+Candidates{row_name} => AllDigits.difference({row_name}) => [1,2,3,4,5,6,7,8,9].difference([the elements of {row_name}] from '# Rows') = [digits from AllDigits (1 to 9) not in {row_name}]
+Candidates{row_name} = [the Candidates{row_name} elements you just calculated at the end of the previous line]
+- You Must write out both lines for each Row, first the calculation line, followed Immediately by the second more concise line. This is Required.
+
+
+# Column Candidates
+- Now produce the column candidates.
+- Do all columns, one at a time.
+
+- First write out AllDigits for reference:
+AllDigits = [1,2,3,4,5,6,7,8,9]
+
+- For each column in '# Columns', write out the digits NOT in the column using the following format:
+Candidates{column_name} => AllDigits.difference({column_name}) => [1,2,3,4,5,6,7,8,9].difference([the elements of {column_name} from '# Columns']) = [digits from AllDigits (digits 1 to 9) not in {column_name}]
+Candidates{column_name} = [the Candidates{column_name} elements you just calculated at the end of the previous line]
+- You Must write out both lines for each Column, first the calculation line, followed Immediately by the second more concise line. This is Required.
+
+
+# Block Candidates
+- Now produce the block candidates.
+- Do all blocks, one at a time.
+
+- First write out AllDigits for reference:
+AllDigits = [1,2,3,4,5,6,7,8,9]
+
+- For each block in '# Blocks', write out the digits NOT in the block using the following format:
+Candidates{block_name} => AllDigits.difference({block_name}) => [1,2,3,4,5,6,7,8,9].difference([the elements of {block_name} from '# Blocks']) = [digits from AllDigits (digits 1 to 9) not in {block_name}]
+Candidates{block_name} = [the Candidates{block_name} elements you just calculated at the end of the previous line]
+- You Must write out both lines for each Block, first the calculation line, followed Immediately by the second more concise line. This is Required.
+
+
+# Index of all zeros, by row
+- Do all rows, one at a time.
+
+- For each row in '# Rows', carefully calculate the index of Every 0 element in {row_name}, using the format below for each row.
+- First each element {row_name}[0 to 8] is checked.
+- Then the index of each 0 element is put into one list.
+- Then add one to each index to turn them into column positions.
+- Then convert the column positions to column names.
+- Do this for all rows.
+{row_name} = [list the elements of {row_name} from '# Rows']
+Now finding the index of Each 0 element in {row_name}
+{row_name}[0] = {the element at {row_name}[0]}
+{row_name}[1] = {the element at {row_name}[1]}
+{row_name}[2] = {the element at {row_name}[2]}
+{row_name}[3] = {the element at {row_name}[3]}
+{row_name}[4] = {the element at {row_name}[4]}
+{row_name}[5] = {the element at {row_name}[5]}
+{row_name}[6] = {the element at {row_name}[6]}
+{row_name}[7] = {the element at {row_name}[7]}
+{row_name}[8] = {the element at {row_name}[8]}
+IndexOfAll0ElementsIn{row_name} => [the index of every 0 element found in {row_name}, from the elements just checked]
+ColumnPositionOfAll0Elements{row_name} => map(element+1, IndexOfAll0ElementsIn{row_name}) = [elements of IndexOfAll0ElementsIn{row_name} with all elements incremented by 1]
+EmptyColumnNames{row_name} = [Column{column_number as a Word} for column_number in ColumnPositionOfAll0Elements{row_name}]
+
+
+# Calculate the number of empty cells in each row in '# Rows'
+- Use the following as a format:
+total_empty_cells = {Length{row_name} as a number} for each EmptyColumnNames{row_name} = {total sum}
+- This will look like:
+total_empty_cells = {number} + {number} + {number}, + {number} + {number} + {number}, + {number} + {number} + {number} = {total sum}
+
+
+# Calculate MaxCells:
+- Cap the number of cells to list:
+MaxCells => min({total_empty_cells}, 20) = (the lower of 20 or {total_empty_cells})
+
+
+PART TWO, CELL CANDIDATES
+# Cell Candidates
+- Calculate the cell candidates of the empty cells, up to MaxCells.
+- Iterate through the empty cells from, stopping immediately after processing all {MaxCells} cells.
+- To ensure only empty cells are processed, print the '## {row_name} Candidates' section when beginning each row.
+
+- When you get to the start of a new row (and have not yet reached MaxCells), print the following to use as a reference (elements of EmptyColumnNames{row_name}, note on last empty column of the row, note on digits in lists, the row and column to block reference title, then Exactly three Row and Column to Block reference lines).
+- Do this at the start of Each row when you get to it (until MaxCells). Then proceed with processing the empty cells in that row.
+- Everything MUST be printed using the formats provided. This is Required.
+## {row_name} Candidates
+- Print the EmptyColumnNames for the current row, with the format:
+EmptyColumnNames{row_name}: [list the column_names in EmptyColumnNames{row_name} from '# Index of all zeros, by row']
+- Then print the following notes, with the format:
+Note, the last empty column of the {row_name} is {EmptyColumnNames{row_name}[-1]}
+Note, digits in lists will Only consist of subsets of AllDigits = [1,2,3,4,5,6,7,8,9]
+- Then print the title for the block_name reference (Must be printed):
+Reference: Row and Column to Block
+- Then print EXACTLY AND ONLY THREE of the following reference lines. These are the Row and Column to Block reference table and Must be printed as is (only filling in the row_name). Change NOTHING about the lines other than filling in 'Row{row_number}' to the current row_name. You MUST print all three lines and leave the columns and blocks unchanged in each.
+- These three for RowOne, RowTwo, or RowThree
+Row{row_number == One|Two|Three} and ColumnOne, ColumnTwo, or ColumnThree means BlockOne
+Row{row_number == One|Two|Three} and ColumnFour, ColumnFive, or ColumnSix means BlockTwo
+Row{row_number == One|Two|Three} and ColumnSeven, ColumnEight, or ColumnNine means BlockThree
+- OR these three for RowFour, RowFive, or RowSix
+Row{row_number == Four|Five|Six} and ColumnOne, ColumnTwo, or ColumnThree means BlockFour
+Row{row_number == Four|Five|Six} and ColumnFour, ColumnFive, or ColumnSix means BlockFive
+Row{row_number == Four|Five|Six} and ColumnSeven, ColumnEight, or ColumnNine means BlockSix
+- OR these three for RowSeven, RowEight, or RowNine
+Row{row_number == Seven|Eight|Nine} and ColumnOne, ColumnTwo, or ColumnThree means BlockSeven
+Row{row_number == Seven|Eight|Nine} and ColumnFour, ColumnFive, or ColumnSix means BlockEight
+Row{row_number == Seven|Eight|Nine} and ColumnSeven, ColumnEight, or ColumnNine means BlockNine
+- end of the '## {row_name} Candidates' format
+
+- For each empty cell in EmptyColumnNames{row_name}, up to a maximum of {MaxCells}, calculate the cell candidates using the format below.
+- (List out the elements of a list when instructed).
+- (Everything MUST be printed using the formats provided. This is Required).
+### {current_cell_count} of {MaxCells}
+Up to {column_name} in EmptyColumnNames{row_name}
+The last empty column of EmptyColumnNames{row_name} is {EmptyColumnNames{row_name}[-1]}
+- if {column_name} is the last empty column of EmptyColumnNames{row_name}:
+    print("Last column of current row")
+    - And If it is NOT the last cell of the section ({current_cell_count} != {MaxCells}), Also add:
+        print("The next row is {next row_name with empty columns})
+- else:
+    print("Not the last column of current row")
+{row_name} and {column_name} means {use the current Row and Column with the 'Reference: Row and Column to Block' table from the '## {row_name} Candidates' section of the current row to get the correct {block_name}}
+import Candidates{row_name}, Candidates{column_name}, Candidates{block_name}
+- You MUST use the already calculated Candidate elements for the current Row, Column, and Block (it is Required to use the already existing Candidates lists). You Must reprint the elements here to refresh them.
+Candidates{row_name} = [the elements of Candidates{row_name} from '# Row Candidates']
+Candidates{column_name} = [the elements of Candidates{column_name} from '# Column Candidates']
+Candidates{block_name} = [the elements of Candidates{block_name} from '# Block Candidates']
+Finding Common Elements:
+- Use the following format to calculate the elements common to both the current row, and the current column.
+CommonElementsOf{row_name}And{column_name} => [the elements of Candidates{row_name}] & [the elements of Candidates{column_name}] = [element if element in Candidates{row_name} and if element in Candidates{column_name}]
+- Use the following format to calculate the elements common to both the results of the previous line (the common row and column elements), and the current block.
+CommonElementsOf{row_name}And{column_name}And{block_name} => [the elements of CommonElementsOf{row_name}And{column_name}] & [the elements of Candidates{block_name}] = [element if element in CommonElementsOf{row_name}And{column_name} and if element in Candidates{block_name}]
+CellCandidates = [list the calculated elements of CommonElementsOf{row_name}And{column_name}And{block_name} exactly as they appear at the end of the previous line, and with No Spaces]
+Length = {CellCandidates.length}
+- If Length == 1, print the line:
+FOUND {row_name}, {column_name}, {block_name}
+- Else, print the line:
+Not 1
+{at the end of each cell, print a newline}
+- then move to the next empty cell until All {MaxCells} empty cells are done.
+- end of the '### {current_cell_count} of {MaxCells}' format
+
+- Calculate the candidates for all {MaxCells} cells starting from the top (though never more than 20 cells, that is the max).
+- As soon as you have finished processing all {MaxCells} of {MaxCells} cells, Stop Listing Cells, and print:
+Finished printing {MaxCells} of {MaxCells} cells
+- This is ONLY when {current_cell_count} == {MaxCells}, NEVER before.
+
+
+PART THREE, OUTPUT
+# Outputting FOUND Cells
+## Collating Results, Six Max
+- For every (up to six) empty cell which had only one element in CellCandidates, marked by "FOUND", find and output all of the FOUND cells (up to a Maximum of 6 FOUND cells) in one place using the same format as the `FOUND {row_name}, {column_name}, {block_name}` line:
+{count from 1 to (at most) 6}: FOUND {row_name}, {column_name, {block_name}}
+- If there were six or more cells with only one CellCandidates, print the following As Soon as you have printed six cells (the max) (if less than six, skip to the Else If below), and then don't print the rest:
+Printed The Max Of Six FOUND Cells
+- Else If you have printed all FOUND cells, but there were less than six, at the end of the FOUND cells print:
+Printed all {number_of_FOUND_cells (when Less than 6 are found)} FOUND cells
+- Make sure to list all of the ones you found up to a max of six (if there were less than six, just print the ones you found).
+- If there where none, instead print "There were no empty cells with only one cell candidate"
+
+## Unbiased Results
+- You MUST print the '## Unbiased Results' section heading, so it can be picked up by the system.
+- For every cell in the '## Collating Results' section (up to a MAX of 6), list them in the format:
+cell({row_name}, {column_name}, {block_name}):
+Candidates{row_name} = [the elements of Candidates{row_name} from '# Row Candidates']
+Candidates{column_name} = [the elements of Candidates{column_name} from '# Column Candidates']
+Candidates{block_name} = [the elements of Candidates{block_name} from '# Block Candidates']
+{newline}
+- Surround the entire list of cells with <analysis output></analysis output> tags.
+- If there were no found cells, output the <analysis output></analysis output> tags containing only the phrase "There were no empty cells with only one cell candidate"
+- (Do not put anything after the closing analysis output tag).
+
+
+- # Final Notes (this section is not printed)
+- You Must Finish All Sections In Full. Do not stop until All Sections are Fully Finished.
+- Print the provided headers when appropriate.
+- Use these instructions to analyze the sudoku.
+- Begin.
+
+entry 5 of 9
+assistant:
+PART ONE, GROUPS AND CANDIDATES
+# Rows
+RowOne = [9,8,5,3,1,6,4,2,0]
+RowTwo = [2,3,1,8,4,7,9,6,5]
+RowThree = [7,0,6,0,5,0,1,8,3]
+RowFour = [4,0,0,6,0,0,3,0,0]
+RowFive = [0,0,3,2,0,0,0,7,0]
+RowSix = [0,7,0,0,8,3,0,4,9]
+RowSeven = [0,5,4,7,6,0,2,0,0]
+RowEight = [0,2,0,0,0,0,0,0,4]
+RowNine = [3,0,9,0,2,0,0,0,8]
+
+# Columns
+ColumnOne = [9,2,7,4,0,0,0,0,3]
+ColumnTwo = [8,3,0,0,0,7,5,2,0]
+ColumnThree = [5,1,6,0,3,0,4,0,9]
+ColumnFour = [3,8,0,6,2,0,7,0,0]
+ColumnFive = [1,4,5,0,0,8,6,0,2]
+ColumnSix = [6,7,0,0,0,3,0,0,0]
+ColumnSeven = [4,9,1,3,0,0,2,0,0]
+ColumnEight = [2,6,8,0,7,4,0,0,0]
+ColumnNine = [0,5,3,0,0,9,0,4,8]
+
+# Blocks
+BlockOne:
+[[9,8,5],
+[2,3,1],
+[7,0,6]]
+BlockOne = [9,8,5,2,3,1,7,0,6]
+
+BlockTwo:
+[[3,1,6],
+[8,4,7],
+[0,5,0]]
+BlockTwo = [3,1,6,8,4,7,0,5,0]
+
+BlockThree:
+[[4,2,0],
+[9,6,5],
+[1,8,3]]
+BlockThree = [4,2,0,9,6,5,1,8,3]
+
+BlockFour:
+[[4,0,0],
+[0,0,3],
+[0,7,0]]
+BlockFour = [4,0,0,0,0,3,0,7,0]
+
+BlockFive:
+[[6,0,0],
+[2,0,0],
+[0,8,3]]
+BlockFive = [6,0,0,2,0,0,0,8,3]
+
+BlockSix:
+[[3,0,0],
+[0,7,0],
+[0,4,9]]
+BlockSix = [3,0,0,0,7,0,0,4,9]
+
+BlockSeven:
+[[0,5,4],
+[0,2,0],
+[3,0,9]]
+BlockSeven = [0,5,4,0,2,0,3,0,9]
+
+BlockEight:
+[[7,6,0],
+[0,0,0],
+[0,2,0]]
+BlockEight = [7,6,0,0,0,0,0,2,0]
+
+BlockNine:
+[[2,0,0],
+[0,0,4],
+[0,0,8]]
+BlockNine = [2,0,0,0,0,4,0,0,8]
+
+# Row Candidates
+AllDigits = [1,2,3,4,5,6,7,8,9]
+CandidatesRowOne => AllDigits.difference(RowOne) => [1,2,3,4,5,6,7,8,9].difference([9,8,5,3,1,6,4,2,0]) = [7]
+CandidatesRowOne = [7]
+CandidatesRowTwo => AllDigits.difference(RowTwo) => [1,2,3,4,5,6,7,8,9].difference([2,3,1,8,4,7,9,6,5]) = []
+CandidatesRowTwo = []
+CandidatesRowThree => AllDigits.difference(RowThree) => [1,2,3,4,5,6,7,8,9].difference([7,0,6,0,5,0,1,8,3]) = [2,4,9]
+CandidatesRowThree = [2,4,9]
+CandidatesRowFour => AllDigits.difference(RowFour) => [1,2,3,4,5,6,7,8,9].difference([4,0,0,6,0,0,3,0,0]) = [1,2,5,7,8,9]
+CandidatesRowFour = [1,2,5,7,8,9]
+CandidatesRowFive => AllDigits.difference(RowFive) => [1,2,3,4,5,6,7,8,9].difference([0,0,3,2,0,0,0,7,0]) = [1,4,5,6,8,9]
+CandidatesRowFive = [1,4,5,6,8,9]
+CandidatesRowSix => AllDigits.difference(RowSix) => [1,2,3,4,5,6,7,8,9].difference([0,7,0,0,8,3,0,4,9]) = [1,2,5,6]
+CandidatesRowSix = [1,2,5,6]
+CandidatesRowSeven => AllDigits.difference(RowSeven) => [1,2,3,4,5,6,7,8,9].difference([0,5,4,7,6,0,2,0,0]) = [1,3,8,9]
+CandidatesRowSeven = [1,3,8,9]
+CandidatesRowEight => AllDigits.difference(RowEight) => [1,2,3,4,5,6,7,8,9].difference([0,2,0,0,0,0,0,0,4]) = [1,3,5,6,7,8,9]
+CandidatesRowEight = [1,3,5,6,7,8,9]
+CandidatesRowNine => AllDigits.difference(RowNine) => [1,2,3,4,5,6,7,8,9].difference([3,0,9,0,2,0,0,0,8]) = [1,4,5,6,7]
+CandidatesRowNine = [1,4,5,6,7]
+
+# Column Candidates
+AllDigits = [1,2,3,4,5,6,7,8,9]
+CandidatesColumnOne => AllDigits.difference(ColumnOne) => [1,2,3,4,5,6,7,8,9].difference([9,2,7,4,0,0,0,0,3]) = [1,5,6,8]
+CandidatesColumnOne = [1,5,6,8]
+CandidatesColumnTwo => AllDigits.difference(ColumnTwo) => [1,2,3,4,5,6,7,8,9].difference([8,3,0,0,0,7,5,2,0]) = [1,4,6,9]
+CandidatesColumnTwo = [1,4,6,9]
+CandidatesColumnThree => AllDigits.difference(ColumnThree) => [1,2,3,4,5,6,7,8,9].difference([5,1,6,0,3,0,4,0,9]) = [2,7,8]
+CandidatesColumnThree = [2,7,8]
+CandidatesColumnFour => AllDigits.difference(ColumnFour) => [1,2,3,4,5,6,7,8,9].difference([3,8,0,6,2,0,7,0,0]) = [1,4,5,9]
+CandidatesColumnFour = [1,4,5,9]
+CandidatesColumnFive => AllDigits.difference(ColumnFive) => [1,2,3,4,5,6,7,8,9].difference([1,4,5,0,0,8,6,0,2]) = [3,7,9]
+CandidatesColumnFive = [3,7,9]
+CandidatesColumnSix => AllDigits.difference(ColumnSix) => [1,2,3,4,5,6,7,8,9].difference([6,7,0,0,0,3,0,0,0]) = [1,2,4,5,8,9]
+CandidatesColumnSix = [1,2,4,5,8,9]
+CandidatesColumnSeven => AllDigits.difference(ColumnSeven) => [1,2,3,4,5,6,7,8,9].difference([4,9,1,3,0,0,2,0,0]) = [5,6,7,8]
+CandidatesColumnSeven = [5,6,7,8]
+CandidatesColumnEight => AllDigits.difference(ColumnEight) => [1,2,3,4,5,6,7,8,9].difference([2,6,8,0,7,4,0,0,0]) = [1,3,5,9]
+CandidatesColumnEight = [1,3,5,9]
+CandidatesColumnNine => AllDigits.difference(ColumnNine) => [1,2,3,4,5,6,7,8,9].difference([0,5,3,0,0,9,0,4,8]) = [1,2,6,7]
+CandidatesColumnNine = [1,2,6,7]
+
+# Block Candidates
+AllDigits = [1,2,3,4,5,6,7,8,9]
+CandidatesBlockOne => AllDigits.difference(BlockOne) => [1,2,3,4,5,6,7,8,9].difference([9,8,5,2,3,1,7,0,6]) = [4]
+CandidatesBlockOne = [4]
+CandidatesBlockTwo => AllDigits.difference(BlockTwo) => [1,2,3,4,5,6,7,8,9].difference([3,1,6,8,4,7,0,5,0]) = [2,9]
+CandidatesBlockTwo = [2,9]
+CandidatesBlockThree => AllDigits.difference(BlockThree) => [1,2,3,4,5,6,7,8,9].difference([4,2,0,9,6,5,1,8,3]) = [7]
+CandidatesBlockThree = [7]
+CandidatesBlockFour => AllDigits.difference(BlockFour) => [1,2,3,4,5,6,7,8,9].difference([4,0,0,0,0,3,0,7,0]) = [1,2,5,6,8,9]
+CandidatesBlockFour = [1,2,5,6,8,9]
+CandidatesBlockFive => AllDigits.difference(BlockFive) => [1,2,3,4,5,6,7,8,9].difference([6,0,0,2,0,0,0,8,3]) = [1,4,5,7,9]
+CandidatesBlockFive = [1,4,5,7,9]
+CandidatesBlockSix => AllDigits.difference(BlockSix) => [1,2,3,4,5,6,7,8,9].difference([3,0,0,0,7,0,0,4,9]) = [1,2,5,6,8]
+CandidatesBlockSix = [1,2,5,6,8]
+CandidatesBlockSeven => AllDigits.difference(BlockSeven) => [1,2,3,4,5,6,7,8,9].difference([0,5,4,0,2,0,3,0,9]) = [1,6,7,8]
+CandidatesBlockSeven = [1,6,7,8]
+CandidatesBlockEight => AllDigits.difference(BlockEight) => [1,2,3,4,5,6,7,8,9].difference([7,6,0,0,0,0,0,2,0]) = [1,3,4,5,8,9]
+CandidatesBlockEight = [1,3,4,5,8,9]
+CandidatesBlockNine => AllDigits.difference(BlockNine) => [1,2,3,4,5,6,7,8,9].difference([2,0,0,0,0,4,0,0,8]) = [1,3,5,6,7,9]
+CandidatesBlockNine = [1,3,5,6,7,9]
+
+# Index of all zeros, by row
+RowOne = [9,8,5,3,1,6,4,2,0]
+Now finding the index of Each 0 element in RowOne
+RowOne[0] = 9
+RowOne[1] = 8
+RowOne[2] = 5
+RowOne[3] = 3
+RowOne[4] = 1
+RowOne[5] = 6
+RowOne[6] = 4
+RowOne[7] = 2
+RowOne[8] = 0
+IndexOfAll0ElementsInRowOne => [8]
+ColumnPositionOfAll0ElementsRowOne => map(element+1, IndexOfAll0ElementsInRowOne) = [9]
+EmptyColumnNamesRowOne = [ColumnNine]
+
+RowTwo = [2,3,1,8,4,7,9,6,5]
+Now finding the index of Each 0 element in RowTwo
+RowTwo[0] = 2
+RowTwo[1] = 3
+RowTwo[2] = 1
+RowTwo[3] = 8
+RowTwo[4] = 4
+RowTwo[5] = 7
+RowTwo[6] = 9
+RowTwo[7] = 6
+RowTwo[8] = 5
+IndexOfAll0ElementsInRowTwo => []
+ColumnPositionOfAll0ElementsRowTwo => map(element+1, IndexOfAll0ElementsInRowTwo) = []
+EmptyColumnNamesRowTwo = []
+
+RowThree = [7,0,6,0,5,0,1,8,3]
+Now finding the index of Each 0 element in RowThree
+RowThree[0] = 7
+RowThree[1] = 0
+RowThree[2] = 6
+RowThree[3] = 0
+RowThree[4] = 5
+RowThree[5] = 0
+RowThree[6] = 1
+RowThree[7] = 8
+RowThree[8] = 3
+IndexOfAll0ElementsInRowThree => [1,3,5]
+ColumnPositionOfAll0ElementsRowThree => map(element+1, IndexOfAll0ElementsInRowThree) = [2,4,6]
+EmptyColumnNamesRowThree = [ColumnTwo,ColumnFour,ColumnSix]
+
+RowFour = [4,0,0,6,0,0,3,0,0]
+Now finding the index of Each 0 element in RowFour
+RowFour[0] = 4
+RowFour[1] = 0
+RowFour[2] = 0
+RowFour[3] = 6
+RowFour[4] = 0
+RowFour[5] = 0
+RowFour[6] = 3
+RowFour[7] = 0
+RowFour[8] = 0
+IndexOfAll0ElementsInRowFour => [1,2,4,5,7,8]
+ColumnPositionOfAll0ElementsRowFour => map(element+1, IndexOfAll0ElementsInRowFour) = [2,3,5,6,8,9]
+EmptyColumnNamesRowFour = [ColumnTwo,ColumnThree,ColumnFive,ColumnSix,ColumnEight,ColumnNine]
+
+RowFive = [0,0,3,2,0,0,0,7,0]
+Now finding the index of Each 0 element in RowFive
+RowFive[0] = 0
+RowFive[1] = 0
+RowFive[2] = 3
+RowFive[3] = 2
+RowFive[4] = 0
+RowFive[5] = 0
+RowFive[6] = 0
+RowFive[7] = 7
+RowFive[8] = 0
+IndexOfAll0ElementsInRowFive => [0,1,4,5,6,8]
+ColumnPositionOfAll0ElementsRowFive => map(element+1, IndexOfAll0ElementsInRowFive) = [1,2,5,6,7,9]
+EmptyColumnNamesRowFive = [ColumnOne,ColumnTwo,ColumnFive,ColumnSix,ColumnSeven,ColumnNine]
+
+RowSix = [0,7,0,0,8,3,0,4,9]
+Now finding the index of Each 0 element in RowSix
+RowSix[0] = 0
+RowSix[1] = 7
+RowSix[2] = 0
+RowSix[3] = 0
+RowSix[4] = 8
+RowSix[5] = 3
+RowSix[6] = 0
+RowSix[7] = 4
+RowSix[8] = 9
+IndexOfAll0ElementsInRowSix => [0,2,3,6]
+ColumnPositionOfAll0ElementsRowSix => map(element+1, IndexOfAll0ElementsInRowSix) = [1,3,4,7]
+EmptyColumnNamesRowSix = [ColumnOne,ColumnThree,
+
+entry 6 of 9
+user:
+continue
+
+entry 7 of 9
+assistant:
+ColumnFour,ColumnSeven]
+
+RowSeven = [0,5,4,7,6,0,2,0,0]
+Now finding the index of Each 0 element in RowSeven
+RowSeven[0] = 0
+RowSeven[1] = 5
+RowSeven[2] = 4
+RowSeven[3] = 7
+RowSeven[4] = 6
+RowSeven[5] = 0
+RowSeven[6] = 2
+RowSeven[7] = 0
+RowSeven[8] = 0
+IndexOfAll0ElementsInRowSeven => [0,5,7,8]
+ColumnPositionOfAll0ElementsRowSeven => map(element+1, IndexOfAll0ElementsInRowSeven) = [1,6,8,9]
+EmptyColumnNamesRowSeven = [ColumnOne,ColumnSix,ColumnEight,ColumnNine]
+
+RowEight = [0,2,0,0,0,0,0,0,4]
+Now finding the index of Each 0 element in RowEight
+RowEight[0] = 0
+RowEight[1] = 2
+RowEight[2] = 0
+RowEight[3] = 0
+RowEight[4] = 0
+RowEight[5] = 0
+RowEight[6] = 0
+RowEight[7] = 0
+RowEight[8] = 4
+IndexOfAll0ElementsInRowEight => [0,2,3,4,5,6,7]
+ColumnPositionOfAll0ElementsRowEight => map(element+1, IndexOfAll0ElementsInRowEight) = [1,3,4,5,6,7,8]
+EmptyColumnNamesRowEight = [ColumnOne,ColumnThree,ColumnFour,ColumnFive,ColumnSix,ColumnSeven,ColumnEight]
+
+RowNine = [3,0,9,0,2,0,0,0,8]
+Now finding the index of Each 0 element in RowNine
+RowNine[0] = 3
+RowNine[1] = 0
+RowNine[2] = 9
+RowNine[3] = 0
+RowNine[4] = 2
+RowNine[5] = 0
+RowNine[6] = 0
+RowNine[7] = 0
+RowNine[8] = 8
+IndexOfAll0ElementsInRowNine => [1,3,5,6,7]
+ColumnPositionOfAll0ElementsRowNine => map(element+1, IndexOfAll0ElementsInRowNine) = [2,4,6,7,8]
+EmptyColumnNamesRowNine = [ColumnTwo,ColumnFour,ColumnSix,ColumnSeven,ColumnEight]
+
+# Calculate the number of empty cells in each row in '# Rows'
+total_empty_cells = 1 for each EmptyColumnNamesRowOne + 0 for each EmptyColumnNamesRowTwo + 3 for each EmptyColumnNamesRowThree + 6 for each EmptyColumnNamesRowFour + 6 for each EmptyColumnNamesRowFive + 4 for each EmptyColumnNamesRowSix + 4 for each EmptyColumnNamesRowSeven + 7 for each EmptyColumnNamesRowEight + 5 for each EmptyColumnNamesRowNine = 36
+
+# Calculate MaxCells:
+MaxCells => min(total_empty_cells, 20) = 20
+
+PART TWO, CELL CANDIDATES
+# Cell Candidates
+## RowOne Candidates
+EmptyColumnNamesRowOne: [ColumnNine]
+Note, the last empty column of the RowOne is ColumnNine
+Note, digits in lists will Only consist of subsets of AllDigits = [1,2,3,4,5,6,7,8,9]
+Reference: Row and Column to Block
+RowOne and ColumnOne, ColumnTwo, or ColumnThree means BlockOne
+RowOne and ColumnFour, ColumnFive, or ColumnSix means BlockTwo
+RowOne and ColumnSeven, ColumnEight, or ColumnNine means BlockThree
+
+### 1 of 20
+Up to ColumnNine in EmptyColumnNamesRowOne
+The last empty column of EmptyColumnNamesRowOne is ColumnNine
+Last column of current row
+The next row is RowThree
+RowOne and ColumnNine means BlockThree
+import CandidatesRowOne, CandidatesColumnNine, CandidatesBlockThree
+CandidatesRowOne = [7]
+CandidatesColumnNine = [1,2,6,7]
+CandidatesBlockThree = [7]
+Finding Common Elements:
+CommonElementsOfRowOneAndColumnNine => [7] & [1,2,6,7] = [7]
+CommonElementsOfRowOneAndColumnNineAndBlockThree => [7] & [7] = [7]
+CellCandidates = [7]
+Length = 1
+FOUND RowOne, ColumnNine, BlockThree
+
+## RowThree Candidates
+EmptyColumnNamesRowThree: [ColumnTwo,ColumnFour,ColumnSix]
+Note, the last empty column of the RowThree is ColumnSix
+Note, digits in lists will Only consist of subsets of AllDigits = [1,2,3,4,5,6,7,8,9]
+Reference: Row and Column to Block
+RowThree and ColumnOne, ColumnTwo, or ColumnThree means BlockOne
+RowThree and ColumnFour, ColumnFive, or ColumnSix means BlockTwo
+RowThree and ColumnSeven, ColumnEight, or ColumnNine means BlockThree
+
+### 2 of 20
+Up to ColumnTwo in EmptyColumnNamesRowThree
+The last empty column of EmptyColumnNamesRowThree is ColumnSix
+Not the last column of current row
+RowThree and ColumnTwo means BlockOne
+import CandidatesRowThree, CandidatesColumnTwo, CandidatesBlockOne
+CandidatesRowThree = [2,4,9]
+CandidatesColumnTwo = [1,4,6,9]
+CandidatesBlockOne = [4]
+Finding Common Elements:
+CommonElementsOfRowThreeAndColumnTwo => [2,4,9] & [1,4,6,9] = [4,9]
+CommonElementsOfRowThreeAndColumnTwoAndBlockOne => [4,9] & [4] = [4]
+CellCandidates = [4]
+Length = 1
+FOUND RowThree, ColumnTwo, BlockOne
+
+### 3 of 20
+Up to ColumnFour in EmptyColumnNamesRowThree
+The last empty column of EmptyColumnNamesRowThree is ColumnSix
+Not the last column of current row
+RowThree and ColumnFour means BlockTwo
+import CandidatesRowThree, CandidatesColumnFour, CandidatesBlockTwo
+CandidatesRowThree = [2,4,9]
+CandidatesColumnFour = [1,4,5,9]
+CandidatesBlockTwo = [2,9]
+Finding Common Elements:
+CommonElementsOfRowThreeAndColumnFour => [2,4,9] & [1,4,5,9] = [4,9]
+CommonElementsOfRowThreeAndColumnFourAndBlockTwo => [4,9] & [2,9] = [9]
+CellCandidates = [9]
+Length = 1
+FOUND RowThree, ColumnFour, BlockTwo
+
+### 4 of 20
+Up to ColumnSix in EmptyColumnNamesRowThree
+The last empty column of EmptyColumnNamesRowThree is ColumnSix
+Last column of current row
+The next row is RowFour
+RowThree and ColumnSix means BlockTwo
+import CandidatesRowThree, CandidatesColumnSix, CandidatesBlockTwo
+CandidatesRowThree = [2,4,9]
+CandidatesColumnSix = [1,2,4,5,8,9]
+CandidatesBlockTwo = [2,9]
+Finding Common Elements:
+CommonElementsOfRowThreeAndColumnSix => [2,4,9] & [1,2,4,5,8,9] = [2,4,9]
+CommonElementsOfRowThreeAndColumnSixAndBlockTwo => [2,4,9] & [2,9] = [2,9]
+CellCandidates = [2,9]
+Length = 2
+Not 1
+
+## RowFour Candidates
+EmptyColumnNamesRowFour: [ColumnTwo,ColumnThree,ColumnFive,ColumnSix,ColumnEight,ColumnNine]
+Note, the last empty column of the RowFour is ColumnNine
+Note, digits in lists will Only consist of subsets of AllDigits = [1,2,3,4,5,6,7,8,9]
+Reference: Row and Column to Block
+RowFour and ColumnOne, ColumnTwo, or ColumnThree means BlockFour
+RowFour and ColumnFour, ColumnFive, or ColumnSix means BlockFive
+RowFour and ColumnSeven, ColumnEight, or ColumnNine means BlockSix
+
+### 5 of 20
+Up to ColumnTwo in EmptyColumnNamesRowFour
+The last empty column of EmptyColumnNamesRowFour is ColumnNine
+Not the last column of current row
+RowFour and ColumnTwo means BlockFour
+import CandidatesRowFour, CandidatesColumnTwo, CandidatesBlockFour
+CandidatesRowFour = [1,2,5,7,8,9]
+CandidatesColumnTwo = [1,4,6,9]
+CandidatesBlockFour = [1,2,5,6,8,9]
+Finding Common Elements:
+CommonElementsOfRowFourAndColumnTwo => [1,2,5,7,8,9] & [1,4,6,9] = [1,9]
+CommonElementsOfRowFourAndColumnTwoAndBlockFour => [1,9] & [1,2,5,6,8,9] = [1,9]
+CellCandidates = [1,9]
+Length = 2
+Not 1
+
+### 6 of 20
+Up to ColumnThree in EmptyColumnNamesRowFour
+The last empty column of EmptyColumnNamesRowFour is ColumnNine
+Not the last column of current row
+RowFour and ColumnThree means BlockFour
+import CandidatesRowFour, CandidatesColumnThree, CandidatesBlockFour
+CandidatesRowFour = [1,2,5,7,8,9]
+CandidatesColumnThree = [2,7,8]
+CandidatesBlockFour = [1,2,5,6,8,9]
+Finding Common Elements:
+CommonElementsOfRowFourAndColumnThree => [1,2,5,7,8,9] & [2,7,8] = [2,7,8]
+CommonElementsOfRowFourAndColumnThreeAndBlockFour => [2,7,8] & [1,2,5,6,8,9] = [2,8]
+CellCandidates = [2,8]
+Length = 2
+Not 1
+
+### 7 of 20
+Up to ColumnFive in EmptyColumnNamesRowFour
+The last empty column of EmptyColumnNamesRowFour is ColumnNine
+Not the last column of current row
+RowFour and ColumnFive means BlockFive
+import CandidatesRowFour, CandidatesColumnFive, CandidatesBlockFive
+CandidatesRowFour = [1,2,5,7,8,9]
+CandidatesColumnFive = [3,7,9]
+CandidatesBlockFive = [1,4,5,7,9]
+Finding Common Elements:
+CommonElementsOfRowFourAndColumnFive => [1,2,5,7,8,9] & [3,7,9] = [7,9]
+CommonElementsOfRowFourAndColumnFiveAndBlockFive => [7,9] & [1,4,5,7,9] = [7,9]
+CellCandidates = [7,9]
+Length = 2
+Not 1
+
+### 8 of 20
+Up to ColumnSix in EmptyColumnNamesRowFour
+The last empty column of EmptyColumnNamesRowFour is ColumnNine
+Not the last column of current row
+RowFour and ColumnSix means BlockFive
+import CandidatesRowFour, CandidatesColumnSix, CandidatesBlockFive
+CandidatesRowFour = [1,2,5,7,8,9]
+CandidatesColumnSix = [1,2,4,5,8,9]
+CandidatesBlockFive = [1,4,5,7,9]
+Finding Common Elements:
+CommonElementsOfRowFourAndColumnSix => [1,2,5,7,8,9] & [1,2,4,5,8,9] = [1,2,5,8,9]
+CommonElementsOfRowFourAndColumnSixAndBlockFive => [1,2,5,8,9] & [1,4,5,7,9] = [1,5,9]
+CellCandidates = [1,5,9]
+Length = 3
+Not 1
+
+### 9 of 20
+Up to ColumnEight in EmptyColumnNamesRowFour
+The last empty column of EmptyColumnNamesRowFour is ColumnNine
+Not the last column of current row
+RowFour and ColumnEight means BlockSix
+import CandidatesRowFour, CandidatesColumnEight, CandidatesBlockSix
+CandidatesRowFour = [1,2,5,7,8,9]
+CandidatesColumnEight = [1,3,5,9]
+CandidatesBlockSix = [1,2,5,6,8]
+Finding Common Elements:
+CommonElementsOfRowFourAndColumnEight => [1,2,5,7,8,9] & [1,3,5,9] = [1,5,9]
+CommonElementsOfRowFourAndColumnEightAndBlockSix => [1,5,9] & [1,2,5,6,8] = [1,5]
+CellCandidates = [1,5]
+Length = 2
+Not 1
+
+### 10 of 20
+Up to ColumnNine in EmptyColumnNamesRowFour
+The last empty column of EmptyColumnNamesRowFour is ColumnNine
+Last column of current row
+The next row is RowFive
+RowFour and ColumnNine means BlockSix
+import CandidatesRowFour, CandidatesColumnNine, CandidatesBlockSix
+CandidatesRowFour = [1,2,5,7,8,9]
+CandidatesColumnNine = [1,2,6,7]
+CandidatesBlockSix = [1,2,5,6,8]
+Finding Common Elements:
+CommonElementsOfRowFourAndColumnNine => [1,2,5,7,8,9] & [1,2,6,7] = [1,2,7]
+CommonElementsOfRowFourAndColumnNineAndBlockSix => [1,2,7] & [1,2,5,6,8] = [1,2]
+CellCandidates = [1,2]
+Length = 2
+Not 1
+
+## RowFive Candidates
+EmptyColumnNamesRowFive: [ColumnOne,ColumnTwo,ColumnFive,ColumnSix,ColumnSeven,ColumnNine]
+Note, the last empty column of the RowFive is ColumnNine
+Note, digits in lists will Only consist of subsets of AllDigits = [1,2,3,4,5,6,7,8,9]
+Reference: Row and Column to Block
+RowFive and ColumnOne, ColumnTwo, or ColumnThree means BlockFour
+RowFive and ColumnFour, ColumnFive, or ColumnSix means BlockFive
+RowFive and ColumnSeven, ColumnEight, or ColumnNine means BlockSix
+
+### 11 of 20
+Up to ColumnOne in EmptyColumnNamesRowFive
+The last empty column of EmptyColumnNamesRowFive is ColumnNine
+Not the last column of current row
+RowFive and ColumnOne means BlockFour
+import CandidatesRowFive, CandidatesColumnOne, CandidatesBlockFour
+CandidatesRowFive = [1,4,5,6,8,9]
+CandidatesColumnOne = [1,5,6,8]
+CandidatesBlockFour = [1,2,5,6,8,9]
+Finding Common Elements:
+CommonElementsOfRowFiveAndColumnOne => [1,4,5,6,8,9] & [1,5,6,8] = [1,5,6,8]
+CommonElementsOfRowFiveAndColumnOneAndBlockFour => [1,5,6,8] & [1,2,5,6,8,9] = [1,5,6,8]
+CellCandidates = [1,5,6,8]
+Length = 4
+Not 1
+
+### 12 of 20
+Up to ColumnTwo in EmptyColumnNamesRowFive
+The last empty column of EmptyColumnNamesRowFive is ColumnNine
+Not the last column of current row
+RowFive and ColumnTwo means BlockFour
+import CandidatesRowFive, CandidatesColumnTwo, CandidatesBlockFour
+CandidatesRowFive = [1,4,5,6,8,9]
+CandidatesColumnTwo = [1,4,6,9]
+CandidatesBlockFour = [1,2,5,6,8,9]
+Finding Common Elements:
+CommonElementsOfRowFiveAndColumnTwo => [1,4,5,6,8,9] & [1,4,6,9] = [1,4,6,9]
+CommonElementsOfRowFiveAndColumnTwoAndBlockFour => [1,4,6,9] & [1,2,5,6,8,9] = [1,6,9]
+CellCandidates = [1,6,9]
+Length = 3
+Not 1
+
+### 13 of 20
+Up to ColumnFive in EmptyColumnNamesRowFive
+The last empty column of EmptyColumnNamesRowFive is ColumnNine
+Not the last column of current row
+RowFive and ColumnFive means BlockFive
+import CandidatesRowFive, CandidatesColumnFive, CandidatesBlockFive
+CandidatesRowFive = [1,4,5,6,8,9]
+CandidatesColumnFive = [3,7,9]
+CandidatesBlockFive = [1,4,5,7,9]
+Finding Common Elements:
+CommonElementsOfRowFiveAndColumnFive => [1,4,5,6,8,9] & [3,7,9] = [9]
+CommonElementsOfRowFiveAndColumnFiveAndBlockFive => [9] & [1,4,5,7,9] = [9]
+CellCandidates = [9]
+Length = 1
+FOUND RowFive, ColumnFive, BlockFive
+
+### 14 of 20
+Up to ColumnSix in EmptyColumnNamesRowFive
+The last empty column of EmptyColumnNamesRowFive is ColumnNine
+Not the last column of current row
+RowFive and ColumnSix means BlockFive
+import CandidatesRowFive, CandidatesColumnSix, CandidatesBlockFive
+CandidatesRowFive = [1,4,5,6,8,9]
+CandidatesColumnSix = [1,2,4,5,8,9]
+CandidatesBlockFive = [1,4,5,7,9]
+Finding Common Elements:
+CommonElementsOfRowFiveAndColumnSix => [1,4,5,6,8,9] & [1,2,4,5,8,9] = [1,4,5,8,9]
+
+
+entry 8 of 9
+user:
+continue
+
+entry 9 of 9
+assistant:
+CommonElementsOfRowFiveAndColumnSixAndBlockFive => [1,4,5,8,9] & [1,4,5,7,9] = [1,4,5,9]
+CellCandidates = [1,4,5,9]
+Length = 4
+Not 1
+
+### 15 of 20
+Up to ColumnSeven in EmptyColumnNamesRowFive
+The last empty column of EmptyColumnNamesRowFive is ColumnNine
+Not the last column of current row
+RowFive and ColumnSeven means BlockSix
+import CandidatesRowFive, CandidatesColumnSeven, CandidatesBlockSix
+CandidatesRowFive = [1,4,5,6,8,9]
+CandidatesColumnSeven = [5,6,7,8]
+CandidatesBlockSix = [1,2,5,6,8]
+Finding Common Elements:
+CommonElementsOfRowFiveAndColumnSeven => [1,4,5,6,8,9] & [5,6,7,8] = [5,6,8]
+CommonElementsOfRowFiveAndColumnSevenAndBlockSix => [5,6,8] & [1,2,5,6,8] = [5,6,8]
+CellCandidates = [5,6,8]
+Length = 3
+Not 1
+
+### 16 of 20
+Up to ColumnNine in EmptyColumnNamesRowFive
+The last empty column of EmptyColumnNamesRowFive is ColumnNine
+Last column of current row
+The next row is RowSix
+RowFive and ColumnNine means BlockSix
+import CandidatesRowFive, CandidatesColumnNine, CandidatesBlockSix
+CandidatesRowFive = [1,4,5,6,8,9]
+CandidatesColumnNine = [1,2,6,7]
+CandidatesBlockSix = [1,2,5,6,8]
+Finding Common Elements:
+CommonElementsOfRowFiveAndColumnNine => [1,4,5,6,8,9] & [1,2,6,7] = [1,6]
+CommonElementsOfRowFiveAndColumnNineAndBlockSix => [1,6] & [1,2,5,6,8] = [1,6]
+CellCandidates = [1,6]
+Length = 2
+Not 1
+
+## RowSix Candidates
+EmptyColumnNamesRowSix: [ColumnOne,ColumnThree,ColumnFour,ColumnSeven]
+Note, the last empty column of the RowSix is ColumnSeven
+Note, digits in lists will Only consist of subsets of AllDigits = [1,2,3,4,5,6,7,8,9]
+Reference: Row and Column to Block
+RowSix and ColumnOne, ColumnTwo, or ColumnThree means BlockFour
+RowSix and ColumnFour, ColumnFive, or ColumnSix means BlockFive
+RowSix and ColumnSeven, ColumnEight, or ColumnNine means BlockSix
+
+### 17 of 20
+Up to ColumnOne in EmptyColumnNamesRowSix
+The last empty column of EmptyColumnNamesRowSix is ColumnSeven
+Not the last column of current row
+RowSix and ColumnOne means BlockFour
+import CandidatesRowSix, CandidatesColumnOne, CandidatesBlockFour
+CandidatesRowSix = [1,2,5,6]
+CandidatesColumnOne = [1,5,6,8]
+CandidatesBlockFour = [1,2,5,6,8,9]
+Finding Common Elements:
+CommonElementsOfRowSixAndColumnOne => [1,2,5,6] & [1,5,6,8] = [1,5,6]
+CommonElementsOfRowSixAndColumnOneAndBlockFour => [1,5,6] & [1,2,5,6,8,9] = [1,5,6]
+CellCandidates = [1,5,6]
+Length = 3
+Not 1
+
+### 18 of 20
+Up to ColumnThree in EmptyColumnNamesRowSix
+The last empty column of EmptyColumnNamesRowSix is ColumnSeven
+Not the last column of current row
+RowSix and ColumnThree means BlockFour
+import CandidatesRowSix, CandidatesColumnThree, CandidatesBlockFour
+CandidatesRowSix = [1,2,5,6]
+CandidatesColumnThree = [2,7,8]
+CandidatesBlockFour = [1,2,5,6,8,9]
+Finding Common Elements:
+CommonElementsOfRowSixAndColumnThree => [1,2,5,6] & [2,7,8] = [2]
+CommonElementsOfRowSixAndColumnThreeAndBlockFour => [2] & [1,2,5,6,8,9] = [2]
+CellCandidates = [2]
+Length = 1
+FOUND RowSix, ColumnThree, BlockFour
+
+### 19 of 20
+Up to ColumnFour in EmptyColumnNamesRowSix
+The last empty column of EmptyColumnNamesRowSix is ColumnSeven
+Not the last column of current row
+RowSix and ColumnFour means BlockFive
+import CandidatesRowSix, CandidatesColumnFour, CandidatesBlockFive
+CandidatesRowSix = [1,2,5,6]
+CandidatesColumnFour = [1,4,5,9]
+CandidatesBlockFive = [1,4,5,7,9]
+Finding Common Elements:
+CommonElementsOfRowSixAndColumnFour => [1,2,5,6] & [1,4,5,9] = [1,5]
+CommonElementsOfRowSixAndColumnFourAndBlockFive => [1,5] & [1,4,5,7,9] = [1,5]
+CellCandidates = [1,5]
+Length = 2
+Not 1
+
+### 20 of 20
+Up to ColumnSeven in EmptyColumnNamesRowSix
+The last empty column of EmptyColumnNamesRowSix is ColumnSeven
+Last column of current row
+RowSix and ColumnSeven means BlockSix
+import CandidatesRowSix, CandidatesColumnSeven, CandidatesBlockSix
+CandidatesRowSix = [1,2,5,6]
+CandidatesColumnSeven = [5,6,7,8]
+CandidatesBlockSix = [1,2,5,6,8]
+Finding Common Elements:
+CommonElementsOfRowSixAndColumnSeven => [1,2,5,6] & [5,6,7,8] = [5,6]
+CommonElementsOfRowSixAndColumnSevenAndBlockSix => [5,6] & [1,2,5,6,8] = [5,6]
+CellCandidates = [5,6]
+Length = 2
+Not 1
+
+Finished printing 20 of 20 cells
+
+PART THREE, OUTPUT
+# Outputting FOUND Cells
+## Collating Results, Six Max
+1: FOUND RowOne, ColumnNine, BlockThree
+2: FOUND RowThree, ColumnTwo, BlockOne
+3: FOUND RowThree, ColumnFour, BlockTwo
+4: FOUND RowFive, ColumnFive, BlockFive
+5: FOUND RowSix, ColumnThree, BlockFour
+Printed all 5 FOUND cells
+
+## Unbiased Results
+<analysis output>
+cell(RowOne, ColumnNine, BlockThree):
+CandidatesRowOne = [7]
+CandidatesColumnNine = [1,2,6,7]
+CandidatesBlockThree = [7]
+
+cell(RowThree, ColumnTwo, BlockOne):
+CandidatesRowThree = [2,4,9]
+CandidatesColumnTwo = [1,4,6,9]
+CandidatesBlockOne = [4]
+
+cell(RowThree, ColumnFour, BlockTwo):
+CandidatesRowThree = [2,4,9]
+CandidatesColumnFour = [1,4,5,9]
+CandidatesBlockTwo = [2,9]
+
+cell(RowFive, ColumnFive, BlockFive):
+CandidatesRowFive = [1,4,5,6,8,9]
+CandidatesColumnFive = [3,7,9]
+CandidatesBlockFive = [1,4,5,7,9]
+
+cell(RowSix, ColumnThree, BlockFour):
+CandidatesRowSix = [1,2,5,6]
+CandidatesColumnThree = [2,7,8]
+CandidatesBlockFour = [1,2,5,6,8,9]
+
+</analysis output>
+
+----------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+

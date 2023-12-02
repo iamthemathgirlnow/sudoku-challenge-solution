@@ -1,0 +1,34 @@
+- Prompt_A takes the last 204 tokens from the previous prompt B response (except for turn 1, when it takes "initial puzzle.txt".
+- Prompt_B takes the last 400 tokens from the previous prompt_A response.
+- When a response returns with finished_reason=length, the word "continue" is appended to the current message history (right after the returned prompt) and the prompt is resent. This repeats until a response is returned that stopped naturally. This has always occurred in less than 12000 tokens for both prompt_A and prompt_B, though it is *possible* that a response could take slightly over 12000 tokens (though unlikely). A response/turn will Never return more than 16000 total response tokens, and if it does the run should be abandoned and an exorcist called.
+
+
+Prompt A:
+message = [
+    {"role": "system", "content": system_message_prompt_A},
+    {"role": "user", "content": puzzle_input},
+    {"role": "assistant", "content": "Awaiting instructions."},
+    {"role": "user", "content": prompt_A},
+]
+appended as needed with
+    {"role": "assistant", "content": response_of_4k_tokens},
+    {"role": "user", "content": "continue"},
+
+
+Prompt B:
+message = [
+    {"role": "system", "content": system_message_prompt_B},
+    {"role": "user", "content": prompt_B_pre_message},
+    {"role": "assistant", "content": "Awaiting instructions."},
+    {"role": "user", "content": puzzle_input},
+    {"role": "assistant", "content": "Awaiting instructions."},
+    {"role": "user", "content": previous_results},
+    {"role": "assistant", "content": "Awaiting instructions."},
+    {"role": "user", "content": prompt_B},
+]
+appended as needed with
+    {"role": "assistant", "content": response_of_4k_tokens},
+    {"role": "user", "content": "continue"},
+
+
+Repeat until done.

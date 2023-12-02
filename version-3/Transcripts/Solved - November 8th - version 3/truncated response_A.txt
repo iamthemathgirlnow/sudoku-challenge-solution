@@ -1,0 +1,51 @@
+AndBlockSeven => [8] & [7,8] = [8]
+CellCandidates = [8]
+Length = 1
+FOUND RowEight, ColumnThree, BlockSeven
+
+Finished printing 6 of 6 cells
+
+PART THREE, OUTPUT
+# Outputting FOUND Cells
+## Collating Results, Six Max
+1: FOUND RowOne, ColumnOne, BlockOne
+2: FOUND RowOne, ColumnTwo, BlockOne
+3: FOUND RowOne, ColumnThree, BlockOne
+4: FOUND RowFour, ColumnTwo, BlockFour
+5: FOUND RowEight, ColumnTwo, BlockSeven
+6: FOUND RowEight, ColumnThree, BlockSeven
+Printed The Max Of Six FOUND Cells
+
+## Unbiased Results
+<analysis output>
+cell(RowOne, ColumnOne, BlockOne):
+CandidatesRowOne = [4,5,9]
+CandidatesColumnOne = [9]
+CandidatesBlockOne = [4,5,9]
+
+cell(RowOne, ColumnTwo, BlockOne):
+CandidatesRowOne = [4,5,9]
+CandidatesColumnTwo = [4,6,7]
+CandidatesBlockOne = [4,5,9]
+
+cell(RowOne, ColumnThree, BlockOne):
+CandidatesRowOne = [4,5,9]
+CandidatesColumnThree = [5,8]
+CandidatesBlockOne = [4,5,9]
+
+cell(RowFour, ColumnTwo, BlockFour):
+CandidatesRowFour = [6]
+CandidatesColumnTwo = [4,6,7]
+CandidatesBlockFour = [6]
+
+cell(RowEight, ColumnTwo, BlockSeven):
+CandidatesRowEight = [7,8]
+CandidatesColumnTwo = [4,6,7]
+CandidatesBlockSeven = [7,8]
+
+cell(RowEight, ColumnThree, BlockSeven):
+CandidatesRowEight = [7,8]
+CandidatesColumnThree = [5,8]
+CandidatesBlockSeven = [7,8]
+
+</analysis output>

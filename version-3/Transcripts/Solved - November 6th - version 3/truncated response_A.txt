@@ -1,0 +1,49 @@
+
+Up to ColumnFive in EmptyColumnNamesRowEight
+The last empty column of EmptyColumnNamesRowEight is ColumnFive
+Last column of current row
+RowEight and ColumnFive means BlockEight
+import CandidatesRowEight, CandidatesColumnFive, CandidatesBlockEight
+CandidatesRowEight = [6]
+CandidatesColumnFive = [3,5,6]
+CandidatesBlockEight = [2,6]
+Finding Common Elements:
+CommonElementsOfRowEightAndColumnFive => [6] & [3,5,6] = [6]
+CommonElementsOfRowEightAndColumnFiveAndBlockEight => [6] & [2,6] = [6]
+CellCandidates = [6]
+Length = 1
+FOUND RowEight, ColumnFive, BlockEight
+
+Finished printing 4 of 4 cells
+
+PART THREE, OUTPUT
+# Outputting FOUND Cells
+## Collating Results, Six Max
+1: FOUND RowFour, ColumnFive, BlockFive
+2: FOUND RowSix, ColumnFive, BlockFive
+3: FOUND RowSeven, ColumnFour, BlockEight
+4: FOUND RowEight, ColumnFive, BlockEight
+Printed all 4 FOUND cells
+
+## Unbiased Results
+<analysis output>
+cell(RowFour, ColumnFive, BlockFive):
+CandidatesRowFour = [5]
+CandidatesColumnFive = [3,5,6]
+CandidatesBlockFive = [3,5]
+
+cell(RowSix, ColumnFive, BlockFive):
+CandidatesRowSix = [3]
+CandidatesColumnFive = [3,5,6]
+CandidatesBlockFive = [3,5]
+
+cell(RowSeven, ColumnFour, BlockEight):
+CandidatesRowSeven = [2]
+CandidatesColumnFour = [2]
+CandidatesBlockEight = [2,6]
+
+cell(RowEight, ColumnFive, BlockEight):
+CandidatesRowEight = [6]
+CandidatesColumnFive = [3,5,6]
+CandidatesBlockEight = [2,6]
+</analysis output>
