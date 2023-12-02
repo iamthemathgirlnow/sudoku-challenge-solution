@@ -1,0 +1,5 @@
+This prompt can only solve between 70 and 85 percent of the easy LAtimes sudoku puzzles.
+The function "solvable_with_version_3(puzzle_string)" should be ran on each puzzle before an attempt, and if the function returns False the puzzle can be declared Attempted And Failed, without having to actually spend the time and money on a run that cannot succeed (that is what the final version will be for).
+
+During testing, Nov 6th was externally chosen as the starting date for testing, and I'd decided in advance to have 5 attempts on solvable puzzles. Any non-solvable puzzles encountered were to be tallied as a failure, while still allowing 5 actual attempts.
+One such puzzle, November 10th 2023, was not solvable by this method and was not attempted. So the final score of the five attempts is 4 out of 6, rather than 4 out of 5.
