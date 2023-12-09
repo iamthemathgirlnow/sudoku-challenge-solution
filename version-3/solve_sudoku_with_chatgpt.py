@@ -327,7 +327,7 @@ def full_attempt_prompt_A(folder, puzzle_date, **kwargs):
             encountered_error = False
             
             if kwargs.get('pause', False):
-                time.sleep()
+                time.sleep(60)
                 input("Press Enter to continue...")
 
             try:
